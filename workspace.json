@@ -1,0 +1,8 @@
+{
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
+  "version": 2,
+  "projects": {
+    "marketplace-ui": "apps/marketplace-ui",
+    "marketplace-ui-e2e": "apps/marketplace-ui-e2e"
+  }
+}
