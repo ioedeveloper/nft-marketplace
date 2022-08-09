@@ -19,7 +19,7 @@
           "apps/marketplace-ui/src/favicon.ico",
           "apps/marketplace-ui/src/assets"
         ],
-        "styles": ["apps/marketplace-ui/src/styles.css"],
+        "styles": [],
         "scripts": [],
         "webpackConfig": "@nrwl/react/plugins/webpack"
       },
