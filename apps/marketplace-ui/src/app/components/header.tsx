@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export function Header() {
   return (
     <header className="rn-header haeder-default header--sticky">
@@ -13,9 +15,9 @@ export function Header() {
                         <nav id="sideNav" className="mainmenu-nav d-none d-xl-block">
                             {/* <!-- Start Mainmanu Nav --> */}
                             <ul className="mainmenu">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="collection.html">Our Collection</a></li>
-                                <li><a href="create.html">Sell NFT</a></li>
+                                <li><Link to='/'>Home</Link></li>
+                                <li><Link to='/collection'>Our Collection</Link></li>
+                                <li><Link to='/create'>Sell NFT</Link></li>
                             </ul>
                             {/* <!-- End Mainmanu Nav --> */}
                         </nav>
