@@ -2,6 +2,7 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
+    "backend-api": "apps/backend-api",
     "marketplace-ui": "apps/marketplace-ui",
     "marketplace-ui-e2e": "apps/marketplace-ui-e2e"
   }
