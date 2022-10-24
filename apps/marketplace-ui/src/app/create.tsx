@@ -39,7 +39,6 @@ export function CreateNFT() {
                             <div className="brows-file-wrapper">
                                 {/* <!-- actual upload which is hidden --> */}
                                 <input name="createinputfile" id="createinputfile" type="file" className="inputfile" />
-                                <img id="createfileImage" src="assets/images/portfolio-05.jpg" data-black-overlay="6" />
                                 {/* <!-- our custom upload button --> */}
                                 <label htmlFor="createinputfile" title="No File Choosen">
                                     <i className="feather-upload"></i>
