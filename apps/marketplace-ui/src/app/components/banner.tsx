@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export function Banner() {
   return (
     <div className="slider-one rn-section-gapTop">
@@ -7,8 +9,8 @@ export function Banner() {
                     <h2 className="title">Discover Digital Art, Buy and Sell Your Specific NFTs.</h2>
                     <p className="slide-disc">Explore our immerse collection of African arts.</p>
                     <div className="button-group">
-                        <a className="btn btn-large btn-primary" href="#">Buy NFT</a>
-                        <a className="btn btn-large btn-primary-alta" href="create.html">Sell NFT</a>
+                        <Link className="btn btn-large btn-primary" to="/collection">Buy NFT</Link>
+                        <Link className="btn btn-large btn-primary-alta" to="/create">Sell NFT</Link>
                     </div>
                 </div>
                 <div className="col-lg-5 col-md-6 col-sm-12 offset-lg-1">
@@ -19,7 +21,7 @@ export function Banner() {
             </div>
         </div>
     </div>
-  );
+  )
 }
 
-export default Banner;
+export default Banner

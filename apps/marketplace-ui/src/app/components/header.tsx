@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { shortenAddress } from '../utils'
 import { Modal } from './modal'
 
 declare global {
@@ -11,10 +12,21 @@ declare global {
 export function Header() {
     const injectedWeb3 = window.ethereum
     const [showModal, setSetShowModal] = useState<boolean>(false)
+    const [userAccount, setUserAccount] = useState<string>('')
 
-    const handleConnect = () => {
+    useEffect(() => {
+        handleConnect()
+    }, [])
+
+    const handleConnect = async () => {
         if (injectedWeb3) {
-            injectedWeb3.request({ method: 'eth_requestAccounts' })
+            try {
+                const accounts = await injectedWeb3.request({ method: 'eth_requestAccounts' })
+            
+                setUserAccount(accounts[0])
+            } catch (error) {
+                console.error(error)
+            }
         } else {
             setSetShowModal(true)
         }
@@ -25,7 +37,7 @@ export function Header() {
             {
                 showModal && <Modal title='Notification' fnClose={() => setSetShowModal(false) } fnOk={() => { setSetShowModal(false) }}>
                     {
-                        !injectedWeb3 && <p>No Web3 provider detected. Please install metamask and connect wallet.</p>
+                        !injectedWeb3 && <p>No Web3 provider detected. Please install metamask extension on your browser and connect wallet.</p>
                     }
                 </Modal>
             }
@@ -65,10 +77,7 @@ export function Header() {
 
                             <div className="setting-option header-btn rbt-site-header" id="rbt-site-header">
                                 <div className="icon-box">
-                                    { 
-                                        typeof window.ethereum !== 'undefined' ? '0x...adx' :
-                                        <button id="connectbtn" className="btn btn-primary-alta btn-small" onClick={handleConnect}>Connect Wallet</button> 
-                                    }
+                                    { userAccount ? `Address: ${shortenAddress(userAccount)}` : <button id="connectbtn" className="btn btn-primary-alta btn-small" onClick={handleConnect}>Connect Wallet</button> }
                                 </div>
                             </div>
                         </div>
