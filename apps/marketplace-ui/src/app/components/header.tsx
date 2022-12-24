@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { shortenAddress } from '../utils'
 import { AppContext } from '../contexts'
 
-export function Header() { 
+export function Header() {
     const { userAccount, handleConnectWallet } = useContext(AppContext)
     return (
         <header className="rn-header haeder-default header--sticky">

@@ -1,9 +1,4 @@
-interface ModalProps {
-  title: string,
-  fnOk: () => void,
-  fnClose: () => void,
-  children: any
-}
+import { ModalProps } from "../types";
 
 export function Modal (props: ModalProps) {
   return (
