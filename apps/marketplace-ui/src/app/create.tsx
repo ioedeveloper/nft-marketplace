@@ -1,4 +1,60 @@
+import { useRef, useState, useContext } from "react"
+import { AppContext } from "./contexts"
+
 export function CreateNFT() {
+    const { userAccount, handleConnectWallet, uploadNFTToIPFS } = useContext(AppContext)
+    const [imageFile, setImageFile] = useState<File>()
+    const [backgroundImage, setBackgroundImage] = useState<string>("")
+    const [artworkName, setArtworkName] = useState<string>("")
+    const [artworkDescription, setArtworkDescription] = useState<string>("")
+    const [artworkPrice, setArtworkPrice] = useState<string>("")
+    const [contactAddress, setContactAddress] = useState<string>("")
+    const imageRef = useRef<HTMLInputElement>(null)
+
+    const handleImageChange = () => {
+        const currentFiles = imageRef.current?.files
+
+        if (currentFiles && currentFiles.length > 0) {
+            const imageFile = currentFiles[0]
+
+            setImageFile(imageFile)
+            setBackgroundImage(URL.createObjectURL(imageFile))
+        }
+    }
+
+    const handleArtworkNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setArtworkName(event.target.value)
+    }
+
+    const handleArtworkDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setArtworkDescription(event.target.value)
+    }
+
+    const handleArtworkPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setArtworkPrice(event.target.value)
+    }
+
+    const handleContactAddressChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setContactAddress(event.target.value)
+    }
+    const handleSaveNFT = (e: any) => {
+        e.preventDefault()
+        const ownerAddress = userAccount
+
+        if (ownerAddress) {
+            imageFile && uploadNFTToIPFS({
+                owner: ownerAddress,
+                name: artworkName,
+                description: artworkDescription,
+                price: artworkPrice,
+                contactAddress,
+                image: imageFile
+            })
+        } else {
+            handleConnectWallet()
+        }
+    }
+
   return (
     <>
         {/* <!-- start page title area --> */}
@@ -32,27 +88,27 @@ export function CreateNFT() {
                                     Upload file
                                 </h6>
                                 <p className="formate">
-                                    Drag or choose your file to upload
+                                    Choose your file to upload
                                 </p>
                             </div>
 
-                            <div className="brows-file-wrapper">
+                            <div className="brows-file-wrapper" style={{ backgroundImage: `url("${backgroundImage}")`, backgroundSize: '100%' }}>
                                 {/* <!-- actual upload which is hidden --> */}
-                                <input name="createinputfile" id="createinputfile" type="file" className="inputfile" />
+                                <input name="createinputfile" id="createinputfile" ref={imageRef} type="file" className="inputfile" onChange={handleImageChange} />
                                 {/* <!-- our custom upload button --> */}
                                 <label htmlFor="createinputfile" title="No File Choosen">
                                     <i className="feather-upload"></i>
-                                    <span className="text-center">Choose a File</span>
+                                    <span className="text-center">Click to choose a File</span>
                                     <p className="text-center mt--10">PNG, GIF, WEBP, MP4 or MP3. <br />    Max 1Gb.</p>
                                 </label>
                             </div>
                         </div>
                         {/* <!-- end upoad file area --> */}
 
-                        <div className="mt--100 mt_sm--30 mt_md--30 d-none d-lg-block">
+                        {/* <div className="mt--100 mt_sm--30 mt_md--30 d-none d-lg-block">
                             <h5> Note: </h5>
                             <span> Service fee : <strong>2.5%</strong> </span> <br />
-                        </div>
+                        </div> */}
 
                     </div>
 
@@ -63,48 +119,34 @@ export function CreateNFT() {
                                 <div className="col-md-12">
                                     <div className="input-box pb--20">
                                         <label htmlFor="name" className="form-label">Artwork Name</label>
-                                        <input id="name" placeholder="e. g. `Digital Awesome Game`" />
+                                        <input id="name" placeholder="e. g. `Digital Awesome Game`" onChange={handleArtworkNameChange} value={artworkName} />
                                     </div>
                                 </div>
 
                                 <div className="col-md-12">
                                     <div className="input-box pb--20">
                                         <label htmlFor="Description" className="form-label">Description</label>
-                                        <textarea id="Description" rows={3} placeholder="e. g. “After purchasing the artwork you can get item...”"></textarea>
+                                        <textarea id="Description" rows={3} onChange={handleArtworkDescriptionChange} value={artworkDescription} placeholder="e. g. “After purchasing the artwork you can get item...”"></textarea>
                                     </div>
                                 </div>
 
-                                <div className="col-md-4">
+                                <div className="col-md-12">
                                     <div className="input-box pb--20">
                                         <label htmlFor="dollerValue" className="form-label">Item Price in ETH</label>
-                                        <input id="dollerValue" placeholder="e. g. `2 ETH`" />
-                                    </div>
-                                </div>
-
-                                <div className="col-md-4">
-                                    <div className="input-box pb--20">
-                                        <label htmlFor="Size" className="form-label">Size</label>
-                                        <input id="Size" placeholder="e. g. `Size`" />
-                                    </div>
-                                </div>
-
-                                <div className="col-md-4">
-                                    <div className="input-box pb--20">
-                                        <label htmlFor="Propertie" className="form-label">Properties</label>
-                                        <input id="Propertie" placeholder="e. g. `Properties`" />
+                                        <input id="dollerValue" onChange={handleArtworkPriceChange} value={artworkPrice} placeholder="e. g. `0.5`" />
                                     </div>
                                 </div>
 
                                 <div className="col-md-12">
                                     <div className="input-box pb--20">
                                         <label htmlFor="contact" className="form-label">Contact Address Info for Artwork Verification</label>
-                                        <textarea id="Description" rows={3} placeholder="Shop 15, Jos Museum Art Gallery; +234-0819-3484-131; africanArt@gmail.com"></textarea>
+                                        <textarea id="Description" onChange={handleContactAddressChange} value={contactAddress} rows={3} placeholder="e.g `Shop 15, ... Nigeria"></textarea>
                                     </div>
                                 </div>
 
                                 <div className="col-md-12">
                                     <div className="input-box">
-                                        <button className="btn btn-primary btn-large w-100">Submit Item</button>
+                                        <button className="btn btn-primary btn-large w-100" onClick={handleSaveNFT}>Submit Item</button>
                                     </div>
                                 </div>
 
@@ -113,17 +155,18 @@ export function CreateNFT() {
 
                     </div>
 
-                    <div className="mt--100 mt_sm--30 mt_md--30 d-block d-lg-none">
+                    {/* <div className="mt--100 mt_sm--30 mt_md--30 d-block d-lg-none">
                         <h5> Note: </h5>
                         <span> Service fee : <strong>2.5%</strong> </span> <br />
                         <span> You will receive : <strong>25.00 ETH $50,000</strong></span>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
         {/* <!-- create new product area --> */}
     </>
-  );
+  )
 }
 
-export default CreateNFT;
+export default CreateNFT
+

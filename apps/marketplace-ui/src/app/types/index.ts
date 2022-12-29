@@ -12,15 +12,16 @@ export interface IAppContext {
         open: boolean,
         message: string
     },
-    handleConnectWallet: () => void
+    handleConnectWallet: () => void,
+    uploadNFTToIPFS: (nft: NFT) => void
 }
 
 export interface ActionPayloadTypes {
-    FETCH_NFT_LIST_REQUEST: string,
-    FETCH_NFT_LIST_SUCCESS: string[],
+    FETCH_NFT_LIST_REQUEST: undefined,
+    FETCH_NFT_LIST_SUCCESS: NFT[],
     FETCH_NFT_LIST_FAILURE: string,
-    UPLOAD_NFT_TO_IPFS_REQUEST: string,
-    UPLOAD_NFT_TO_IPFS_SUCCESS: string,
+    UPLOAD_NFT_TO_IPFS_REQUEST: undefined,
+    UPLOAD_NFT_TO_IPFS_SUCCESS: NFT,
     UPLOAD_NFT_TO_IPFS_FAILURE: string
 }
 
@@ -30,19 +31,22 @@ export interface Action <T extends keyof ActionPayloadTypes> {
   payload: ActionPayloadTypes[T]
 }
 
-export type Actions = Action<'FETCH_NFT_LIST_REQUEST'> | Action<'FETCH_NFT_LIST_SUCCESS'> | Action<'FETCH_NFT_LIST_FAILURE'> | Action<'UPLOAD_NFT_TO_IPFS_REQUEST'> | Action<'UPLOAD_NFT_TO_IPFS_SUCCESS'> | Action<'UPLOAD_NFT_TO_IPFS_FAILURE'>
+export type Actions = { [A in keyof ActionPayloadTypes]: Action<A> }[keyof ActionPayloadTypes]
 
 export interface AppState {
     nft: {
-        nftList: {
-            id: string,
-            name: string,
-            description: string,
-            image: string,
-            price: number,
-            owner: string
-        }[],
+        nftList: NFT[],
         requesting: boolean,
         error: string
     }
+}
+
+export type NFT = {
+    name: string,
+    description: string,
+    image: File,
+    price: string
+    contactAddress: string,
+    owner: string,
+    hash?: string
 }
