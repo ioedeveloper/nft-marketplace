@@ -1,7 +1,11 @@
 import { Actions, AppState } from "../types"
 
 export const appInitialState: AppState = {
-    nft: {} as AppState['nft']
+    nft: {
+        nftList: [],
+        requesting: false,
+        error: ''
+    }
 }
 
 export const appReducer = (state = appInitialState, action: Actions): AppState => {
@@ -50,7 +54,7 @@ export const appReducer = (state = appInitialState, action: Actions): AppState =
                 nft: {
                     ...state.nft,
                     requesting: false,
-                    // nftList: [...state.nft.nftList, action.payload],
+                    nftList: [...state.nft.nftList, action.payload],
                 }
             }
         

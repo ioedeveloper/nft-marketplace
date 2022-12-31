@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import AdminPanel from './adminPanel'
 import Collection from './collection'
@@ -11,13 +11,15 @@ import './css/app.css'
 import { AppContext } from './contexts'
 import { Modal } from './components/modal'
 import { uploadNFTToIPFS } from './actions/app'
+import { appInitialState, appReducer } from './reducers/app'
 
 const injectedWeb3 = window.ethereum
 
 export function App() {
   const [openModal, setOpenModal] = useState<boolean>(false)
-  const [modalMessage, setModalMessage] = useState<string>('')
+  const [modalMessage, setModalMessage] = useState<JSX.Element>(<></>)
   const [userAccount, setUserAccount] = useState<string>('')
+  const [appState, dispatch] = useReducer(appReducer, appInitialState)
 
   useEffect(() => {
     handleConnectWallet()
@@ -29,7 +31,7 @@ export function App() {
     
         setUserAccount(accounts[0])
     } catch (error) {
-        setModalMessage('No Web3 provider detected. Please install metamask extension on your browser and connect wallet.')
+        setModalMessage(<span>No Web3 provider detected. Please install metamask extension on your browser and connect wallet.</span>)
         setOpenModal(true)
     }
   }
@@ -39,7 +41,9 @@ export function App() {
     userAccount,
     modal: { open: openModal, message: modalMessage },
     handleConnectWallet,
-    uploadNFTToIPFS
+    uploadNFTToIPFS,
+    appState,
+    dispatch
   }
   
   return (

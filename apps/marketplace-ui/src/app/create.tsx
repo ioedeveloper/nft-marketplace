@@ -2,7 +2,7 @@ import { useRef, useState, useContext } from "react"
 import { AppContext } from "./contexts"
 
 export function CreateNFT() {
-    const { userAccount, handleConnectWallet, uploadNFTToIPFS } = useContext(AppContext)
+    const { userAccount, handleConnectWallet, uploadNFTToIPFS, dispatch } = useContext(AppContext)
     const [imageFile, setImageFile] = useState<File>()
     const [backgroundImage, setBackgroundImage] = useState<string>("")
     const [artworkName, setArtworkName] = useState<string>("")
@@ -37,19 +37,19 @@ export function CreateNFT() {
     const handleContactAddressChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setContactAddress(event.target.value)
     }
-    const handleSaveNFT = (e: any) => {
+    const handleSaveNFT = async (e: any) => {
         e.preventDefault()
         const ownerAddress = userAccount
 
         if (ownerAddress) {
-            imageFile && uploadNFTToIPFS({
+            imageFile && await uploadNFTToIPFS({
                 owner: ownerAddress,
                 name: artworkName,
                 description: artworkDescription,
                 price: artworkPrice,
                 contactAddress,
                 image: imageFile
-            })
+            })(dispatch)
         } else {
             handleConnectWallet()
         }

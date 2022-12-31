@@ -8,5 +8,3 @@ declare global {
 }
 
 export const AppContext = createContext<IAppContext>({} as IAppContext)
-  
-    

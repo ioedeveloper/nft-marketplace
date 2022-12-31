@@ -1,8 +1,10 @@
+import { Dispatch } from "react"
+
 export interface ModalProps {
     title: string,
     fnOk: () => void,
     fnClose: () => void,
-    children: any
+    children: JSX.Element
 }
 
 export interface IAppContext {
@@ -10,10 +12,11 @@ export interface IAppContext {
     userAccount: string,
     modal: {
         open: boolean,
-        message: string
+        message: JSX.Element
     },
     handleConnectWallet: () => void,
-    uploadNFTToIPFS: (nft: NFT) => void
+    uploadNFTToIPFS: (nft: NFT) => (dispatch: Dispatch<any>) => Promise<void>,
+    dispatch: Dispatch<any>
 }
 
 export interface ActionPayloadTypes {
