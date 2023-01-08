@@ -9,8 +9,11 @@
   },
   "private": true,
   "dependencies": {
+    "buffer": "^6.0.3",
     "core-js": "^3.6.5",
+    "ethers": "^5.7.2",
     "express": "^4.18.1",
+    "ipfs-http-client": "^59.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "^6.3.0",
