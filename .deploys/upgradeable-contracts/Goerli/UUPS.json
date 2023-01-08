@@ -1,0 +1,351 @@
+{
+  "id": 5,
+  "network": "Goerli",
+  "deployments": {
+    "0xB7C6Ee14c6d228b42086aA9F04380768d0c55308": {
+      "date": "2023-01-08T17:52:53.485Z",
+      "contractName": "MyTokenV3",
+      "fork": "london",
+      "implementationAddress": "0xC2056Bc083137a5A617db418B57C0237414112C0",
+      "layout": {
+        "storage": [
+          {
+            "astId": 527,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8"
+          },
+          {
+            "astId": 530,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool"
+          },
+          {
+            "astId": 2281,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage"
+          },
+          {
+            "astId": 2634,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage"
+          },
+          {
+            "astId": 854,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "_name",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 856,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "_symbol",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 860,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "_owners",
+            "offset": 0,
+            "slot": "103",
+            "type": "t_mapping(t_uint256,t_address)"
+          },
+          {
+            "astId": 864,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "_balances",
+            "offset": 0,
+            "slot": "104",
+            "type": "t_mapping(t_address,t_uint256)"
+          },
+          {
+            "astId": 868,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "_tokenApprovals",
+            "offset": 0,
+            "slot": "105",
+            "type": "t_mapping(t_uint256,t_address)"
+          },
+          {
+            "astId": 874,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "_operatorApprovals",
+            "offset": 0,
+            "slot": "106",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_bool))"
+          },
+          {
+            "astId": 1794,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "__gap",
+            "offset": 0,
+            "slot": "107",
+            "type": "t_array(t_uint256)44_storage"
+          },
+          {
+            "astId": 10,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "_owner",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_address"
+          },
+          {
+            "astId": 130,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage"
+          },
+          {
+            "astId": 509,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "__gap",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_array(t_uint256)50_storage"
+          },
+          {
+            "astId": 824,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "__gap",
+            "offset": 0,
+            "slot": "251",
+            "type": "t_array(t_uint256)50_storage"
+          },
+          {
+            "astId": 3534,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "_tokenIdCounter",
+            "offset": 0,
+            "slot": "301",
+            "type": "t_struct(Counter)2288_storage"
+          },
+          {
+            "astId": 3556,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "tokensData",
+            "offset": 0,
+            "slot": "302",
+            "type": "t_mapping(t_uint256,t_struct(Token)3551_storage)"
+          },
+          {
+            "astId": 3683,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "_tokenIdCounter",
+            "offset": 0,
+            "slot": "303",
+            "type": "t_struct(Counter)2288_storage"
+          },
+          {
+            "astId": 3694,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "nftData",
+            "offset": 0,
+            "slot": "304",
+            "type": "t_mapping(t_uint256,t_struct(Token)3551_storage)"
+          },
+          {
+            "astId": 3778,
+            "contract": "contracts/marketplacev3.sol:MyTokenV3",
+            "label": "_tokenIdCounter",
+            "offset": 0,
+            "slot": "305",
+            "type": "t_struct(Counter)2288_storage"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "encoding": "inplace",
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)44_storage": {
+            "base": "t_uint256",
+            "encoding": "inplace",
+            "label": "uint256[44]",
+            "numberOfBytes": "1408"
+          },
+          "t_array(t_uint256)49_storage": {
+            "base": "t_uint256",
+            "encoding": "inplace",
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "base": "t_uint256",
+            "encoding": "inplace",
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "encoding": "inplace",
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes_storage": {
+            "encoding": "bytes",
+            "label": "bytes",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "encoding": "mapping",
+            "key": "t_address",
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32",
+            "value": "t_bool"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_bool))": {
+            "encoding": "mapping",
+            "key": "t_address",
+            "label": "mapping(address => mapping(address => bool))",
+            "numberOfBytes": "32",
+            "value": "t_mapping(t_address,t_bool)"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "encoding": "mapping",
+            "key": "t_address",
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32",
+            "value": "t_uint256"
+          },
+          "t_mapping(t_uint256,t_address)": {
+            "encoding": "mapping",
+            "key": "t_uint256",
+            "label": "mapping(uint256 => address)",
+            "numberOfBytes": "32",
+            "value": "t_address"
+          },
+          "t_mapping(t_uint256,t_struct(Token)3551_storage)": {
+            "encoding": "mapping",
+            "key": "t_uint256",
+            "label": "mapping(uint256 => struct MyToken.Token)",
+            "numberOfBytes": "32",
+            "value": "t_struct(Token)3551_storage"
+          },
+          "t_string_storage": {
+            "encoding": "bytes",
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Counter)2288_storage": {
+            "encoding": "inplace",
+            "label": "struct CountersUpgradeable.Counter",
+            "members": [
+              {
+                "astId": 2287,
+                "contract": "contracts/marketplacev3.sol:MyTokenV3",
+                "label": "_value",
+                "offset": 0,
+                "slot": "0",
+                "type": "t_uint256"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_struct(Token)3551_storage": {
+            "encoding": "inplace",
+            "label": "struct MyToken.Token",
+            "members": [
+              {
+                "astId": 3545,
+                "contract": "contracts/marketplacev3.sol:MyTokenV3",
+                "label": "owner",
+                "offset": 0,
+                "slot": "0",
+                "type": "t_address"
+              },
+              {
+                "astId": 3547,
+                "contract": "contracts/marketplacev3.sol:MyTokenV3",
+                "label": "hash",
+                "offset": 0,
+                "slot": "1",
+                "type": "t_bytes_storage"
+              },
+              {
+                "astId": 3550,
+                "contract": "contracts/marketplacev3.sol:MyTokenV3",
+                "label": "payload",
+                "offset": 0,
+                "slot": "2",
+                "type": "t_struct(TokenData)3543_storage"
+              }
+            ],
+            "numberOfBytes": "192"
+          },
+          "t_struct(TokenData)3543_storage": {
+            "encoding": "inplace",
+            "label": "struct MyToken.TokenData",
+            "members": [
+              {
+                "astId": 3536,
+                "contract": "contracts/marketplacev3.sol:MyTokenV3",
+                "label": "name",
+                "offset": 0,
+                "slot": "0",
+                "type": "t_string_storage"
+              },
+              {
+                "astId": 3538,
+                "contract": "contracts/marketplacev3.sol:MyTokenV3",
+                "label": "price",
+                "offset": 0,
+                "slot": "1",
+                "type": "t_uint16"
+              },
+              {
+                "astId": 3540,
+                "contract": "contracts/marketplacev3.sol:MyTokenV3",
+                "label": "description",
+                "offset": 0,
+                "slot": "2",
+                "type": "t_string_storage"
+              },
+              {
+                "astId": 3542,
+                "contract": "contracts/marketplacev3.sol:MyTokenV3",
+                "label": "contactAddress",
+                "offset": 0,
+                "slot": "3",
+                "type": "t_string_storage"
+              }
+            ],
+            "numberOfBytes": "128"
+          },
+          "t_uint16": {
+            "encoding": "inplace",
+            "label": "uint16",
+            "numberOfBytes": "2"
+          },
+          "t_uint256": {
+            "encoding": "inplace",
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "encoding": "inplace",
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    }
+  }
+}
