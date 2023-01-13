@@ -12,6 +12,6 @@
         - name: Run SUT Action
             uses: EthereumRemix/sol-test@v1
             with:
-            test-path: 'tests'
-            compiler-version: '0.8.15'
+                test-path: 'tests'
+                compiler-version: '0.8.15'
     
