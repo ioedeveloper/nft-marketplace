@@ -8,7 +8,7 @@ jobs:
     name: A job to run mocha and chai tests for solidity on github actions CI
     steps:
     - name: Checkout
-        uses: actions/checkout@v2
+      uses: actions/checkout@v2
     - name: Run SUT Action
       uses: EthereumRemix/ts-sol-test@v1
       with:
