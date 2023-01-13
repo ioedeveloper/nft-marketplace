@@ -12,6 +12,6 @@ jobs:
     - name: Run SUT Action
       uses: EthereumRemix/ts-sol-test@v1
       with:
-      test-path: 'tests'
-      contract-path: 'contracts'
-      compiler-version: '0.8.7'
+        test-path: 'tests'
+        contract-path: 'contracts'
+        compiler-version: '0.8.7'
