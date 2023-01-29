@@ -10,7 +10,7 @@ import ViewDetails from './viewDetails'
 import './css/app.css'
 import { AppContext } from './contexts'
 import { Modal } from './components/modal'
-import { uploadNFTToIPFS } from './actions/app'
+import { fetchNFTList, uploadNFTToIPFS } from './actions/app'
 import { appInitialState, appReducer } from './reducers/app'
 
 const injectedWeb3 = window.ethereum
@@ -42,6 +42,7 @@ export function App() {
     modal: { open: openModal, message: modalMessage },
     handleConnectWallet,
     uploadNFTToIPFS,
+    fetchNFTList,
     appState,
     dispatch
   }

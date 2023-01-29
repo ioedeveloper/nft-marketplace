@@ -16,6 +16,7 @@ export interface IAppContext {
     },
     handleConnectWallet: () => void,
     uploadNFTToIPFS: (nft: NFT) => (dispatch: Dispatch<any>) => Promise<void>,
+    fetchNFTList: () => (dispatch: Dispatch<any>) => Promise<void>,
     dispatch: Dispatch<any>
 }
 

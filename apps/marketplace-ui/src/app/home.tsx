@@ -1,9 +1,17 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import './css/app.css';
-import Banner from './components/banner';
+import './css/app.css'
+import Banner from './components/banner'
 import { Link } from 'react-router-dom'
+import { useContext, useEffect } from 'react'
+import { AppContext } from './contexts'
 
 export function Home() {
+    const { fetchNFTList, dispatch } = useContext(AppContext)
+    
+    useEffect(() => {
+        fetchNFTList()(dispatch)
+    }, [])
+
   return (
     <>
       <Banner />

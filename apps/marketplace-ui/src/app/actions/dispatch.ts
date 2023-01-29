@@ -12,3 +12,15 @@ export const dispatchNFTUploadSuccess = (data: NFT) => (dispatch: Dispatch<Actio
 export const dispatchNFTUploadFailure = (error: string) => (dispatch: Dispatch<Action<'UPLOAD_NFT_TO_IPFS_FAILURE'>>) => {
     dispatch({ type: 'UPLOAD_NFT_TO_IPFS_FAILURE', payload: error })
 }
+
+export const dispatchNFTFetchRequest = () => (dispatch: Dispatch<Action<'FETCH_NFT_LIST_REQUEST'>>) => {
+    dispatch({ type: 'FETCH_NFT_LIST_REQUEST', payload: undefined })
+}
+
+export const dispatchNFTFetchSuccess = (data: NFT[]) => (dispatch: Dispatch<Action<'FETCH_NFT_LIST_SUCCESS'>>) => {
+    dispatch({ type: 'FETCH_NFT_LIST_SUCCESS', payload: data })
+}
+
+export const dispatchNFTFetchFailure = (error: string) => (dispatch: Dispatch<Action<'FETCH_NFT_LIST_FAILURE'>>) => {
+    dispatch({ type: 'FETCH_NFT_LIST_FAILURE', payload: error })
+}
