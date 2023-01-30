@@ -12,17 +12,14 @@ contract MyToken is Initializable, ERC721Upgradeable, OwnableUpgradeable, UUPSUp
 
     CountersUpgradeable.Counter private _tokenIdCounter;
 
-    struct TokenData {
+    struct Token {
+        address owner;
+        string ipfsHash;
         string name;
         uint16 price;
         string description;
         string contactAddress;
-    }
-
-    struct Token {
-        address owner;
-        bytes hash;
-        TokenData payload;
+        bool verified;
     }
 
     mapping(uint256 => Token) public tokensData;
@@ -38,16 +35,17 @@ contract MyToken is Initializable, ERC721Upgradeable, OwnableUpgradeable, UUPSUp
         __UUPSUpgradeable_init();
     }
 
-    function safeMint(address to, bytes memory hash, string memory name, uint16 price, string memory contactAddress, string memory description) public onlyOwner {
+    function safeMint(address to, string memory hash, string memory name, uint16 price, string memory contactAddress, string memory description) public onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
         tokensData[tokenId].owner = to;
-        tokensData[tokenId].hash = hash;
-        tokensData[tokenId].payload.name = name;
-        tokensData[tokenId].payload.price = price;
-        tokensData[tokenId].payload.contactAddress = contactAddress;
-        tokensData[tokenId].payload.description = description;
+        tokensData[tokenId].ipfsHash = hash;
+        tokensData[tokenId].name = name;
+        tokensData[tokenId].price = price;
+        tokensData[tokenId].contactAddress = contactAddress;
+        tokensData[tokenId].description = description;
+        tokensData[tokenId].verified = true;
     }
 
     function _authorizeUpgrade(address newImplementation)
@@ -55,4 +53,21 @@ contract MyToken is Initializable, ERC721Upgradeable, OwnableUpgradeable, UUPSUp
         onlyOwner
         override
     {}
+
+    function publicMint (address to, string memory hash, string memory name, uint16 price, string memory contactAddress, string memory description) public {
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
+        _safeMint(to, tokenId);
+        tokensData[tokenId].owner = to;
+        tokensData[tokenId].ipfsHash = hash;
+        tokensData[tokenId].name = name;
+        tokensData[tokenId].price = price;
+        tokensData[tokenId].contactAddress = contactAddress;
+        tokensData[tokenId].description = description;
+        tokensData[tokenId].verified = false;
+    }
+
+    function verifyMint (uint256 tokenId) public onlyOwner {
+        tokensData[tokenId].verified = true;
+    }
 }
