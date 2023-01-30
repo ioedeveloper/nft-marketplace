@@ -1,8 +1,11 @@
 import { useRef, useState, useContext } from "react"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { AppContext } from "./contexts"
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
+
 
 export function CreateNFT() {
-    const { userAccount, handleConnectWallet, uploadNFTToIPFS, dispatch } = useContext(AppContext)
+    const { userAccount, appState, setModalMessage, setOpenModal, handleConnectWallet, uploadNFTToIPFS, dispatch } = useContext(AppContext)
     const [imageFile, setImageFile] = useState<File>()
     const [backgroundImage, setBackgroundImage] = useState<string>("")
     const [artworkName, setArtworkName] = useState<string>("")
@@ -42,14 +45,20 @@ export function CreateNFT() {
         const ownerAddress = userAccount
 
         if (ownerAddress) {
-            imageFile && await uploadNFTToIPFS({
-                owner: ownerAddress,
-                name: artworkName,
-                description: artworkDescription,
-                price: artworkPrice,
-                contactAddress,
-                image: imageFile
-            })(dispatch)
+            try {
+                imageFile && await uploadNFTToIPFS({
+                    owner: ownerAddress,
+                    name: artworkName,
+                    description: artworkDescription,
+                    price: artworkPrice,
+                    contactAddress,
+                    image: imageFile
+                })(dispatch)
+                setModalMessage(<span>Artwork successfully uploaded to IPFS</span>)
+                setOpenModal(true)
+            } catch {
+                console.log("Error uploading NFT to IPFS")
+            }
         } else {
             handleConnectWallet()
         }
@@ -146,20 +155,13 @@ export function CreateNFT() {
 
                                 <div className="col-md-12">
                                     <div className="input-box">
-                                        <button className="btn btn-primary btn-large w-100" onClick={handleSaveNFT}>Submit Item</button>
+                                        <button className="btn btn-primary btn-large w-100" onClick={handleSaveNFT} disabled={appState.nft.requesting}>{ !appState.nft.requesting ? 'Submit Item' : <FontAwesomeIcon icon={icon({name: 'ellipsis', style: 'solid' })} beat /> }</button>
                                     </div>
                                 </div>
 
                             </form>
                         </div>
-
                     </div>
-
-                    {/* <div className="mt--100 mt_sm--30 mt_md--30 d-block d-lg-none">
-                        <h5> Note: </h5>
-                        <span> Service fee : <strong>2.5%</strong> </span> <br />
-                        <span> You will receive : <strong>25.00 ETH $50,000</strong></span>
-                    </div> */}
                 </div>
             </div>
         </div>

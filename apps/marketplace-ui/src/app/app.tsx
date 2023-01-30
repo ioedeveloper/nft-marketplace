@@ -39,7 +39,8 @@ export function App() {
   const value = {
     injectedWeb3,
     userAccount,
-    modal: { open: openModal, message: modalMessage },
+    setOpenModal,
+    setModalMessage,
     handleConnectWallet,
     uploadNFTToIPFS,
     fetchNFTList,

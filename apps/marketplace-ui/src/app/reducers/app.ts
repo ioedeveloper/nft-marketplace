@@ -24,7 +24,7 @@ export const appReducer = (state = appInitialState, action: Actions): AppState =
                 ...state,
                 nft: {
                     ...state.nft,
-                    // nftList: action.payload,
+                    nftList: action.payload,
                     requesting: false
                 }
             }

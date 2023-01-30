@@ -10,10 +10,9 @@ export interface ModalProps {
 export interface IAppContext {
     injectedWeb3: any,
     userAccount: string,
-    modal: {
-        open: boolean,
-        message: JSX.Element
-    },
+    appState: AppState,
+    setOpenModal: (open: boolean) => void,
+    setModalMessage: (message: JSX.Element) => void,
     handleConnectWallet: () => void,
     uploadNFTToIPFS: (nft: NFT) => (dispatch: Dispatch<any>) => Promise<void>,
     fetchNFTList: () => (dispatch: Dispatch<any>) => Promise<void>,
@@ -46,11 +45,13 @@ export interface AppState {
 }
 
 export type NFT = {
+    id?: string,
     name: string,
     description: string,
-    image: File,
+    image?: File,
     price: string
     contactAddress: string,
     owner: string,
-    hash?: string
+    hash?: string,
+    verified?: boolean
 }

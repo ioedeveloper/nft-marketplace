@@ -2,8 +2,13 @@ export const DEPLOY_CONFIG = {
     network: 'goerli',
     chainId: 5,
     owner: '0xB878eE5272267164716694070e0389B2Da961511',
-    contractAddress: '0xB7C6Ee14c6d228b42086aA9F04380768d0c55308',
+    contractAddress: '0xF9694b58E676c8f85e27cE89d6f3A30F75186900',
     contractABI: [
+        {
+            "inputs": [],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
         {
             "anonymous": false,
             "inputs": [
@@ -152,6 +157,11 @@ export const DEPLOY_CONFIG = {
                 },
                 {
                     "internalType": "string",
+                    "name": "hash",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
                     "name": "name",
                     "type": "string"
                 },
@@ -191,42 +201,9 @@ export const DEPLOY_CONFIG = {
                     "type": "address"
                 },
                 {
-                    "internalType": "bytes",
+                    "internalType": "string",
                     "name": "hash",
-                    "type": "bytes"
-                },
-                {
-                    "internalType": "string",
-                    "name": "name",
                     "type": "string"
-                },
-                {
-                    "internalType": "uint16",
-                    "name": "price",
-                    "type": "uint16"
-                },
-                {
-                    "internalType": "string",
-                    "name": "contactAddress",
-                    "type": "string"
-                },
-                {
-                    "internalType": "string",
-                    "name": "description",
-                    "type": "string"
-                }
-            ],
-            "name": "safeMint",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "to",
-                    "type": "address"
                 },
                 {
                     "internalType": "string",
@@ -431,6 +408,19 @@ export const DEPLOY_CONFIG = {
         {
             "inputs": [
                 {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "verifyMint",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
                     "internalType": "address",
                     "name": "owner",
                     "type": "address"
@@ -498,57 +488,6 @@ export const DEPLOY_CONFIG = {
                     "internalType": "string",
                     "name": "",
                     "type": "string"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "nftData",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "owner",
-                    "type": "address"
-                },
-                {
-                    "internalType": "bytes",
-                    "name": "hash",
-                    "type": "bytes"
-                },
-                {
-                    "components": [
-                        {
-                            "internalType": "string",
-                            "name": "name",
-                            "type": "string"
-                        },
-                        {
-                            "internalType": "uint16",
-                            "name": "price",
-                            "type": "uint16"
-                        },
-                        {
-                            "internalType": "string",
-                            "name": "description",
-                            "type": "string"
-                        },
-                        {
-                            "internalType": "string",
-                            "name": "contactAddress",
-                            "type": "string"
-                        }
-                    ],
-                    "internalType": "struct MyToken.TokenData",
-                    "name": "payload",
-                    "type": "tuple"
                 }
             ],
             "stateMutability": "view",
@@ -647,36 +586,34 @@ export const DEPLOY_CONFIG = {
                     "type": "address"
                 },
                 {
-                    "internalType": "bytes",
-                    "name": "hash",
-                    "type": "bytes"
+                    "internalType": "string",
+                    "name": "ipfsHash",
+                    "type": "string"
                 },
                 {
-                    "components": [
-                        {
-                            "internalType": "string",
-                            "name": "name",
-                            "type": "string"
-                        },
-                        {
-                            "internalType": "uint16",
-                            "name": "price",
-                            "type": "uint16"
-                        },
-                        {
-                            "internalType": "string",
-                            "name": "description",
-                            "type": "string"
-                        },
-                        {
-                            "internalType": "string",
-                            "name": "contactAddress",
-                            "type": "string"
-                        }
-                    ],
-                    "internalType": "struct MyToken.TokenData",
-                    "name": "payload",
-                    "type": "tuple"
+                    "internalType": "string",
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint16",
+                    "name": "price",
+                    "type": "uint16"
+                },
+                {
+                    "internalType": "string",
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "contactAddress",
+                    "type": "string"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "verified",
+                    "type": "bool"
                 }
             ],
             "stateMutability": "view",
