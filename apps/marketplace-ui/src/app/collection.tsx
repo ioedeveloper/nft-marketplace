@@ -5,7 +5,7 @@ export function Collection() {
     const { fetchNFTList, dispatch } = useContext(AppContext)
 
     useEffect(() => {
-        fetchNFTList()(dispatch)
+        // fetchNFTList()(dispatch)
     }, [])
     
     return (

@@ -57,7 +57,7 @@ export function App() {
             <Route path='/' element={<Home />} />
             <Route path='/collection' element={<Collection />} />
             <Route path='/create' element={<CreateNFT />} />
-            <Route path='/view-details' element={<ViewDetails />} />
+            <Route path='/view-details/:id' element={<ViewDetails />} />
             <Route path='/admin-panel' element={<AdminPanel />} />
           </Routes>
           <Footer />

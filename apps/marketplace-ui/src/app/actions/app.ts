@@ -75,7 +75,6 @@ export const fetchNFTList = () => async (dispatch: Dispatch<any>) => {
     }))
     dispatchNFTFetchSuccess(nftList)(dispatch)
   } catch (error: any) {
-    console.log('error: ', error)
     dispatchNFTFetchFailure(error.message)(dispatch)
   }
 
