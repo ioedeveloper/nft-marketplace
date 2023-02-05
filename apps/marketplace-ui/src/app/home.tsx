@@ -10,7 +10,7 @@ export function Home() {
     const { fetchNFTList, dispatch, appState } = useContext(AppContext)
     
     useEffect(() => {
-        fetchNFTList()(dispatch)
+        if (appState.nft.nftList.length === 0) fetchNFTList()(dispatch)
     }, [])
 
   return (
@@ -117,12 +117,13 @@ export function Home() {
                                                     <Link to={`/view-details/${index}`}><img src={`https://ipfs.io/ipfs/${nft.hash}`} alt="NFT_portfolio" /></Link>
                                                 </div>
                                                 <div className='py-3'>
-                                                    <a href="product-details.html"><span className="product-name">{nft.name}</span></a>
+                                                    <Link to={`/view-details/${index}`}><span className="product-name">{nft.name}</span></Link>
                                                 </div>
                                                 <div className="bid-react-area">
                                                     <div className="last-bid">{nft.price}ETH</div>
                                                     <div className="react-area border border-info">
                                                         <span className="number">BUY</span>
+                                                        { nft.verified ? <a href="#" className="badge badge-success text-success">Verified</a> : <span className="badge badge-danger text-danger">Unverified</span> }
                                                     </div>
                                                 </div>
                                             </div>

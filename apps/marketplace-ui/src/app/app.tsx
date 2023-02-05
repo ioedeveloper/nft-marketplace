@@ -10,10 +10,8 @@ import ViewDetails from './viewDetails'
 import './css/app.css'
 import { AppContext } from './contexts'
 import { Modal } from './components/modal'
-import { fetchNFTList, uploadNFTToIPFS } from './actions/app'
+import { authorizeMarketplace, checkMarketplaceAuthorization, fetchNFTList, uploadNFTToIPFS } from './actions/app'
 import { appInitialState, appReducer } from './reducers/app'
-
-const injectedWeb3 = window.ethereum
 
 export function App() {
   const [openModal, setOpenModal] = useState<boolean>(false)
@@ -23,11 +21,22 @@ export function App() {
 
   useEffect(() => {
     handleConnectWallet()
+    checkMarketplaceAuthorization()(dispatch)
   }, [])
+
+  useEffect(() => {
+    if (appState.nft.error) {
+      setModalMessage(<span>{appState.nft.error}</span>)
+      setOpenModal(true)
+    } else if (appState.marketplace.error) {
+      setModalMessage(<span>{appState.marketplace.error}</span>)
+      setOpenModal(true)
+    }
+  }, [appState.nft.error, appState.marketplace.error])
 
   const handleConnectWallet = async () => {
     try {
-        const accounts = await injectedWeb3.request({ method: 'eth_requestAccounts' })
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
     
         setUserAccount(accounts[0])
     } catch (error) {
@@ -37,13 +46,13 @@ export function App() {
   }
 
   const value = {
-    injectedWeb3,
     userAccount,
     setOpenModal,
     setModalMessage,
     handleConnectWallet,
     uploadNFTToIPFS,
     fetchNFTList,
+    authorizeMarketplace,
     appState,
     dispatch
   }

@@ -9,7 +9,7 @@ export function Banner() {
                     <h2 className="title">Discover Digital Art, Buy and Sell Your Specific NFTs.</h2>
                     <p className="slide-disc">Explore our immerse collection of African arts.</p>
                     <div className="button-group">
-                        <Link className="btn btn-large btn-primary" to="/collection">Buy NFT</Link>
+                        <Link className="btn btn-large btn-primary" to="/collection">Explore NFTs</Link>
                         <Link className="btn btn-large btn-primary-alta" to="/create">Sell NFT</Link>
                     </div>
                 </div>

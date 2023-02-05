@@ -1,11 +1,13 @@
 import { useContext, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import NFTPlaceholder from "./components/placeholder";
 import { AppContext } from "./contexts";
 
 export function Collection() {
-    const { fetchNFTList, dispatch } = useContext(AppContext)
+    const { dispatch, fetchNFTList, appState } = useContext(AppContext)
 
     useEffect(() => {
-        // fetchNFTList()(dispatch)
+        if (appState.nft.nftList.length < 50) fetchNFTList(50)(dispatch)
     }, [])
     
     return (
@@ -19,7 +21,7 @@ export function Collection() {
                     </div>
                     <div className="col-lg-6 col-md-6 col-12">
                         <ul className="breadcrumb-list">
-                            <li className="item"><a href="index.html">Home</a></li>
+                            <li className="item"><Link to='/'>Home</Link></li>
                             <li className="separator"><i className="feather-chevron-right"></i></li>
                             <li className="item current">Collection</li>
                         </ul>
@@ -32,200 +34,57 @@ export function Collection() {
         <div className="rn-collection-area rn-section-gapTop">
             <div className="container">
                 <div className="row g-5">
-                    {/* <!-- start single collention --> */}
-                    <div className="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-12">
-                        <a href="product-details.html" className="rn-collection-inner-one">
-                            <div className="collection-wrapper">
-                                <div className="collection-big-thumbnail">
-                                    <img src="assets/images/collection-lg-01.jpg" alt="Nft_Profile" />
+                {
+                        appState.nft.requesting ? (
+                            <>
+                                <div className="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <NFTPlaceholder />
                                 </div>
-                                <div className="collenction-small-thumbnail">
-                                    <img src="assets/images/collection-sm-01.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-02.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-03.jpg" alt="Nft_Profile" />
+                                <div className="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <NFTPlaceholder />
                                 </div>
-                                <div className="collection-profile">
-                                    <img src="assets/images/client-15.png" alt="Nft_Profile" />
+                                <div className="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <NFTPlaceholder />
                                 </div>
-                                <div className="collection-deg">
-                                    <h6 className="title">Cubic Trad</h6>
-                                    <span className="items">27 Items</span>
+                                <div className="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <NFTPlaceholder />
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                    {/* <!-- End single collention --> */}
-                    {/* <!-- start single collention --> */}
-                    <div className="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-12">
-                        <a href="product-details.html" className="rn-collection-inner-one">
-                            <div className="collection-wrapper">
-                                <div className="collection-big-thumbnail">
-                                    <img src="assets/images/collection-lg-02.jpg" alt="Nft_Profile" />
+                                <div className="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <NFTPlaceholder />
                                 </div>
-                                <div className="collenction-small-thumbnail">
-                                    <img src="assets/images/collection-sm-04.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-05.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-06.jpg" alt="Nft_Profile" />
-                                </div>
-                                <div className="collection-profile">
-                                    <img src="assets/images/client-12.png" alt="Nft_Profile" />
-                                </div>
-                                <div className="collection-deg">
-                                    <h6 className="title">Diamond Dog</h6>
-                                    <span className="items">20 Items</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    {/* <!-- End single collention --> */}
-                    {/* <!-- start single collention --> */}
-                    <div className="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-12">
-                        <a href="product-details.html" className="rn-collection-inner-one">
-                            <div className="collection-wrapper">
-                                <div className="collection-big-thumbnail">
-                                    <img src="assets/images/collection-lg-03.jpg" alt="Nft_Profile" />
-                                </div>
-                                <div className="collenction-small-thumbnail">
-                                    <img src="assets/images/collection-sm-07.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-08.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-09.jpg" alt="Nft_Profile" />
-                                </div>
-                                <div className="collection-profile">
-                                    <img src="assets/images/client-13.png" alt="Nft_Profile" />
-                                </div>
-                                <div className="collection-deg">
-                                    <h6 className="title">Morgan11</h6>
-                                    <span className="items">15 Items</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    {/* <!-- End single collention --> */}
-                    {/* <!-- start single collention --> */}
-                    <div className="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-12">
-                        <a href="product-details." className="rn-collection-inner-one">
-                            <div className="collection-wrapper">
-                                <div className="collection-big-thumbnail">
-                                    <img src="assets/images/collection-lg-05.jpg" alt="Nft_Profile" />
-                                </div>
-                                <div className="collenction-small-thumbnail">
-                                    <img src="assets/images/collection-sm-10.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-11.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-12.jpg" alt="Nft_Profile" />
-                                </div>
-                                <div className="collection-profile">
-                                    <img src="assets/images/client-14.png" alt="Nft_Profile" />
-                                </div>
-                                <div className="collection-deg">
-                                    <h6 className="title">Orthogon#720</h6>
-                                    <span className="items">10 Items</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    {/* <!-- End single collention --> */}
-                    {/* <!-- start single collention --> */}
-                    <div className="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-12">
-                        <a href="product-details.html" className="rn-collection-inner-one">
-                            <div className="collection-wrapper">
-                                <div className="collection-big-thumbnail">
-                                    <img src="assets/images/collection-lg-02.jpg" alt="Nft_Profile" />
-                                </div>
-                                <div className="collenction-small-thumbnail">
-                                    <img src="assets/images/collection-sm-01.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-02.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-03.jpg" alt="Nft_Profile" />
-                                </div>
-                                <div className="collection-profile">
-                                    <img src="assets/images/client-15.png" alt="Nft_Profile" />
-                                </div>
-                                <div className="collection-deg">
-                                    <h6 className="title">Trad Mard</h6>
-                                    <span className="items">35 Items</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    {/* <!-- End single collention --> */}
-                    {/* <!-- start single collention --> */}
-                    <div className="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-12">
-                        <a href="product-details.html" className="rn-collection-inner-one">
-                            <div className="collection-wrapper">
-                                <div className="collection-big-thumbnail">
-                                    <img src="assets/images/collection-lg-04.jpg" alt="Nft_Profile" />
-                                </div>
-                                <div className="collenction-small-thumbnail">
-                                    <img src="assets/images/collection-sm-04.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-05.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-06.jpg" alt="Nft_Profile" />
-                                </div>
-                                <div className="collection-profile">
-                                    <img src="assets/images/client-12.png" alt="Nft_Profile" />
-                                </div>
-                                <div className="collection-deg">
-                                    <h6 className="title">Dog Eligator</h6>
-                                    <span className="items">82 Items</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    {/* <!-- End single collention --> */}
-                    {/* <!-- start single collention --> */}
-                    <div className="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-12">
-                        <a href="product-details.html" className="rn-collection-inner-one">
-                            <div className="collection-wrapper">
-                                <div className="collection-big-thumbnail">
-                                    <img src="assets/images/collection-lg-05.jpg" alt="Nft_Profile" />
-                                </div>
-                                <div className="collenction-small-thumbnail">
-                                    <img src="assets/images/collection-sm-07.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-08.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-09.jpg" alt="Nft_Profile" />
-                                </div>
-                                <div className="collection-profile">
-                                    <img src="assets/images/client-13.png" alt="Nft_Profile" />
-                                </div>
-                                <div className="collection-deg">
-                                    <h6 className="title">Monas ten</h6>
-                                    <span className="items">10 Items</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    {/* <!-- End single collention --> */}
-                    {/* <!-- start single collention --> */}
-                    <div className="col-lg-4 col-xl-3 col-md-6 col-sm-6 col-12">
-                        <a href="product-details." className="rn-collection-inner-one">
-                            <div className="collection-wrapper">
-                                <div className="collection-big-thumbnail">
-                                    <img src="assets/images/collection-lg-01.jpg" alt="Nft_Profile" />
-                                </div>
-                                <div className="collenction-small-thumbnail">
-                                    <img src="assets/images/collection-sm-10.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-11.jpg" alt="Nft_Profile" />
-                                    <img src="assets/images/collection-sm-12.jpg" alt="Nft_Profile" />
-                                </div>
-                                <div className="collection-profile">
-                                    <img src="assets/images/client-14.png" alt="Nft_Profile" />
-                                </div>
-                                <div className="collection-deg">
-                                    <h6 className="title">Thememove</h6>
-                                    <span className="items">82 Items</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    {/* <!-- End single collention --> */}
+                            </>
+                        ) : (
+                            <>
+                                { appState.nft.nftList.map((nft, index) => index < 50 && (
+                                        <div className="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
+                                            <div className="product-style-one no-overlay">
+                                                <div className="card-thumbnail">
+                                                    <Link to={`/view-details/${index}`}><img src={`https://ipfs.io/ipfs/${nft.hash}`} alt="NFT_portfolio" /></Link>
+                                                </div>
+                                                <div className='py-3'>
+                                                    <Link to={`/view-details/${index}`}><span className="product-name">{nft.name}</span></Link>
+                                                </div>
+                                                <div className="bid-react-area">
+                                                    <div className="last-bid">{nft.price}ETH</div>
+                                                    <div className="react-area border border-info">
+                                                        <span className="number">BUY</span>
+                                                        { nft.verified ? <a href="#" className="badge badge-success text-success">Verified</a> : <span className="badge badge-danger text-danger">Unverified</span> }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+                            </>
+                        )
+                    }
                 </div>
                 <div className="row">
                     <div className="col-lg-12">
                         <nav className="pagination-wrapper" aria-label="Page navigation example">
                             <ul className="pagination">
-                                <li className="page-item"><a className="page-link" href="#">Previous</a></li>
-                                <li className="page-item"><a className="page-link active" href="#">1</a></li>
-                                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                <li className="page-item"><a className="page-link" href="#">Next</a></li>
+                                <li className="page-item"><Link className="page-link" to='/'>Previous</Link></li>
+                                <li className="page-item"><Link className="page-link" to='/'>Next</Link></li>
                             </ul>
                         </nav>
                     </div>

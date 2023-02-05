@@ -2,10 +2,11 @@ import { useRef, useState, useContext } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { AppContext } from "./contexts"
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { Link } from "react-router-dom"
 
 
 export function CreateNFT() {
-    const { userAccount, appState, setModalMessage, setOpenModal, handleConnectWallet, uploadNFTToIPFS, dispatch } = useContext(AppContext)
+    const { userAccount, appState, setModalMessage, setOpenModal, handleConnectWallet, uploadNFTToIPFS, authorizeMarketplace, dispatch } = useContext(AppContext)
     const [imageFile, setImageFile] = useState<File>()
     const [backgroundImage, setBackgroundImage] = useState<string>("")
     const [artworkName, setArtworkName] = useState<string>("")
@@ -40,8 +41,14 @@ export function CreateNFT() {
     const handleContactAddressChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setContactAddress(event.target.value)
     }
+
     const handleSaveNFT = async (e: any) => {
         e.preventDefault()
+        if (!appState.marketplace.approved) {
+            setModalMessage(<span>NFT marketplace has not been authorized to manage NFT assets on behalf of your address. Please give authorization before minting NFTs.</span>)
+            setOpenModal(true)
+            return
+        }
         const ownerAddress = userAccount
 
         if (ownerAddress) {
@@ -64,6 +71,10 @@ export function CreateNFT() {
         }
     }
 
+    const approveMarketplace = async () => {
+        await authorizeMarketplace()(dispatch)
+    }
+
   return (
     <>
         {/* <!-- start page title area --> */}
@@ -75,7 +86,7 @@ export function CreateNFT() {
                     </div>
                     <div className="col-lg-6 col-md-6 col-12">
                         <ul className="breadcrumb-list">
-                            <li className="item"><a href="index.html">Home</a></li>
+                            <li className="item"><Link to='/'>Home</Link></li>
                             <li className="separator"><i className="feather-chevron-right"></i></li>
                             <li className="item current">Sell NFT</li>
                         </ul>
@@ -84,6 +95,19 @@ export function CreateNFT() {
             </div>
         </div>
         {/* <!-- end page title area --> */}
+        {
+            !appState.marketplace.approved &&
+            <div className="rn-page-wrapper">
+                <div className="rn-section-gapTop">
+                    <div className="container">
+                        <div className="alert alert-danger d-flex justify-content-between" role="alert">
+                            <span className="pt--10"><strong>Warning: You must give approval to the NFT marketplace before you can mint tokens. Please make sure to complete this step in order to proceed with the token minting process.</strong></span>
+                            <button type="button" className="btn btn-success" onClick={() => approveMarketplace()}>Approve</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
         {/* <!-- create new product area --> */}
         <div className="create-area rn-section-gapTop pb-5">
             <div className="container">
@@ -103,7 +127,7 @@ export function CreateNFT() {
 
                             <div className="brows-file-wrapper" style={{ backgroundImage: `url("${backgroundImage}")`, backgroundSize: '100%' }}>
                                 {/* <!-- actual upload which is hidden --> */}
-                                <input name="createinputfile" id="createinputfile" ref={imageRef} type="file" className="inputfile" onChange={handleImageChange} />
+                                <input name="createinputfile" id="createinputfile" ref={imageRef} type="file" className="inputfile" onChange={handleImageChange} disabled={!appState.marketplace.approved} />
                                 {/* <!-- our custom upload button --> */}
                                 <label htmlFor="createinputfile" title="No File Choosen">
                                     <i className="feather-upload"></i>
@@ -128,34 +152,34 @@ export function CreateNFT() {
                                 <div className="col-md-12">
                                     <div className="input-box pb--20">
                                         <label htmlFor="name" className="form-label">Artwork Name</label>
-                                        <input id="name" placeholder="e. g. `Digital Awesome Game`" onChange={handleArtworkNameChange} value={artworkName} />
+                                        <input id="name" placeholder="e. g. `Digital Awesome Game`" onChange={handleArtworkNameChange} value={artworkName} disabled={!appState.marketplace.approved} />
                                     </div>
                                 </div>
 
                                 <div className="col-md-12">
                                     <div className="input-box pb--20">
                                         <label htmlFor="Description" className="form-label">Description</label>
-                                        <textarea id="Description" rows={3} onChange={handleArtworkDescriptionChange} value={artworkDescription} placeholder="e. g. “After purchasing the artwork you can get item...”"></textarea>
+                                        <textarea id="Description" rows={3} onChange={handleArtworkDescriptionChange} value={artworkDescription} placeholder="e. g. “After purchasing the artwork you can get item...”" disabled={!appState.marketplace.approved}></textarea>
                                     </div>
                                 </div>
 
                                 <div className="col-md-12">
                                     <div className="input-box pb--20">
                                         <label htmlFor="dollerValue" className="form-label">Item Price in ETH</label>
-                                        <input id="dollerValue" onChange={handleArtworkPriceChange} value={artworkPrice} placeholder="e. g. `0.5`" />
+                                        <input id="dollerValue" onChange={handleArtworkPriceChange} value={artworkPrice} placeholder="e. g. `0.5`" disabled={!appState.marketplace.approved} />
                                     </div>
                                 </div>
 
                                 <div className="col-md-12">
                                     <div className="input-box pb--20">
                                         <label htmlFor="contact" className="form-label">Contact Address Info for Artwork Verification</label>
-                                        <textarea id="Description" onChange={handleContactAddressChange} value={contactAddress} rows={3} placeholder="e.g `Shop 15, ... Nigeria"></textarea>
+                                        <textarea id="Description" onChange={handleContactAddressChange} value={contactAddress} rows={3} placeholder="e.g `Shop 15, ... Nigeria" disabled={!appState.marketplace.approved}></textarea>
                                     </div>
                                 </div>
 
                                 <div className="col-md-12">
                                     <div className="input-box">
-                                        <button className="btn btn-primary btn-large w-100" onClick={handleSaveNFT} disabled={appState.nft.requesting}>{ !appState.nft.requesting ? 'Submit Item' : <FontAwesomeIcon icon={icon({name: 'ellipsis', style: 'solid' })} beat /> }</button>
+                                        <button className="btn btn-primary btn-large w-100" onClick={handleSaveNFT} disabled={ !appState.marketplace.approved || appState.nft.requesting }>{ !appState.nft.requesting ? 'Submit Item' : <FontAwesomeIcon icon={icon({name: 'ellipsis', style: 'solid' })} beat /> }</button>
                                     </div>
                                 </div>
 

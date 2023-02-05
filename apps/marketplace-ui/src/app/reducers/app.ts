@@ -5,6 +5,11 @@ export const appInitialState: AppState = {
         nftList: [],
         requesting: false,
         error: ''
+    },
+    marketplace: {
+        approved: false,
+        requesting: false,
+        error: ''
     }
 }
 
@@ -65,6 +70,35 @@ export const appReducer = (state = appInitialState, action: Actions): AppState =
                     ...state.nft,
                     requesting: false,
                     error: action.payload
+                }
+            }
+        
+        case 'APPROVE_MARKETPLACE_REQUEST':
+            return {
+                ...state,
+                marketplace: {
+                    ...state.marketplace,
+                    requesting: true
+                }
+            }
+        
+        case 'APPROVE_MARKETPLACE_SUCCESS':
+            return {
+                ...state,
+                marketplace: {
+                    ...state.marketplace,
+                    approved: true,
+                    requesting: false
+                }
+            }
+
+        case 'APPROVE_MARKETPLACE_FAILURE':
+            return {
+                ...state,
+                marketplace: {
+                    ...state.marketplace,
+                    error: action.payload,
+                    requesting: false
                 }
             }
 

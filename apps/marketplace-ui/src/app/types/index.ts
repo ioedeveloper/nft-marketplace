@@ -8,14 +8,14 @@ export interface ModalProps {
 }
 
 export interface IAppContext {
-    injectedWeb3: any,
     userAccount: string,
     appState: AppState,
     setOpenModal: (open: boolean) => void,
     setModalMessage: (message: JSX.Element) => void,
     handleConnectWallet: () => void,
     uploadNFTToIPFS: (nft: NFT) => (dispatch: Dispatch<any>) => Promise<void>,
-    fetchNFTList: () => (dispatch: Dispatch<any>) => Promise<void>,
+    fetchNFTList: (limit?: number) => (dispatch: Dispatch<any>) => Promise<void>,
+    authorizeMarketplace: () => (dispatch: Dispatch<any>) => Promise<void>,
     dispatch: Dispatch<any>
 }
 
@@ -25,7 +25,10 @@ export interface ActionPayloadTypes {
     FETCH_NFT_LIST_FAILURE: string,
     UPLOAD_NFT_TO_IPFS_REQUEST: undefined,
     UPLOAD_NFT_TO_IPFS_SUCCESS: NFT,
-    UPLOAD_NFT_TO_IPFS_FAILURE: string
+    UPLOAD_NFT_TO_IPFS_FAILURE: string,
+    APPROVE_MARKETPLACE_REQUEST: undefined,
+    APPROVE_MARKETPLACE_SUCCESS: undefined,
+    APPROVE_MARKETPLACE_FAILURE: string
 }
 
 
@@ -41,6 +44,11 @@ export interface AppState {
         nftList: NFT[],
         requesting: boolean,
         error: string
+    },
+    marketplace: {
+        approved: boolean,
+        requesting: boolean,
+        error: string
     }
 }
 
@@ -49,9 +57,10 @@ export type NFT = {
     name: string,
     description: string,
     image?: File,
-    price: string
+    price: string,
     contactAddress: string,
     owner: string,
     hash?: string,
-    verified?: boolean
+    verified?: boolean,
+    txnHash?: string
 }

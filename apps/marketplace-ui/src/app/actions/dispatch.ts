@@ -24,3 +24,15 @@ export const dispatchNFTFetchSuccess = (data: NFT[]) => (dispatch: Dispatch<Acti
 export const dispatchNFTFetchFailure = (error: string) => (dispatch: Dispatch<Action<'FETCH_NFT_LIST_FAILURE'>>) => {
     dispatch({ type: 'FETCH_NFT_LIST_FAILURE', payload: error })
 }
+
+export const dispatchApproveMarketplaceRequest = () => (dispatch: Dispatch<Action<'APPROVE_MARKETPLACE_REQUEST'>>) => {
+    dispatch({ type: 'APPROVE_MARKETPLACE_REQUEST', payload: undefined })
+}
+
+export const dispatchApproveMarketplaceSuccess = () => (dispatch: Dispatch<Action<'APPROVE_MARKETPLACE_SUCCESS'>>) => {
+    dispatch({ type: 'APPROVE_MARKETPLACE_SUCCESS', payload: undefined })
+}
+
+export const dispatchApproveMarketplaceFailure = (error: string) => (dispatch: Dispatch<Action<'APPROVE_MARKETPLACE_FAILURE'>>) => {
+    dispatch({ type: 'APPROVE_MARKETPLACE_FAILURE', payload: error })
+}

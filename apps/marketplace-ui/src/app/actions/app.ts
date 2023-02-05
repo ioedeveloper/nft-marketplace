@@ -3,7 +3,7 @@ import { create } from "ipfs-http-client"
 import { Buffer } from "buffer"
 import { ethers } from "ethers"
 import axios from "axios"
-import { dispatchNFTFetchFailure, dispatchNFTFetchRequest, dispatchNFTFetchSuccess, dispatchNFTUploadFailure, dispatchNFTUploadRequest, dispatchNFTUploadSuccess } from "./dispatch"
+import { dispatchApproveMarketplaceFailure, dispatchApproveMarketplaceRequest, dispatchApproveMarketplaceSuccess, dispatchNFTFetchFailure, dispatchNFTFetchRequest, dispatchNFTFetchSuccess, dispatchNFTUploadFailure, dispatchNFTUploadRequest, dispatchNFTUploadSuccess } from "./dispatch"
 import { NFT } from "../types"
 import { DEPLOY_CONFIG } from "../config/deploy"
 
@@ -16,16 +16,19 @@ const infuraConfig = {
 }
 const ipfs = create(infuraConfig)
 
+window.web3Provider = new ethers.providers.Web3Provider(window.ethereum)
+
 export const uploadNFTToIPFS = (nft: NFT) => async (dispatch: Dispatch<any>) => {
     dispatchNFTUploadRequest()(dispatch)
     try {
         const cid = await ipfs.add(nft.image!)
         const hash = cid.path
-        const injectedWeb3 = new ethers.providers.Web3Provider(window.ethereum)
-        const contract = new ethers.Contract(DEPLOY_CONFIG.contractAddress, DEPLOY_CONFIG.contractABI, injectedWeb3.getSigner())
+        const contract = new ethers.Contract(DEPLOY_CONFIG.tokenAddress, DEPLOY_CONFIG.tokenABI, window.web3Provider.getSigner())
+        const price = ethers.utils.parseEther(nft.price)
         
         nft.hash = hash
-        const mintTx = await contract['publicMint'](nft.owner, nft.hash, nft.name, nft.price, nft.contactAddress, nft.description)
+        const mintTx = await contract['publicMint'](nft.owner, nft.hash, nft.name, price, nft.contactAddress, nft.description)
+
         await mintTx.wait()
         dispatchNFTUploadSuccess(nft)(dispatch)
     } catch (error: any) {
@@ -33,7 +36,7 @@ export const uploadNFTToIPFS = (nft: NFT) => async (dispatch: Dispatch<any>) => 
     }
 }
 
-export const fetchNFTList = () => async (dispatch: Dispatch<any>) => {
+export const fetchNFTList = (limit = 20) => async (dispatch: Dispatch<any>) => {
   try {
     dispatchNFTFetchRequest()(dispatch)
     const response = await axios.post(process.env['NX_INFURA_GOERLI_ENDPOINT']!, JSON.stringify({
@@ -41,9 +44,10 @@ export const fetchNFTList = () => async (dispatch: Dispatch<any>) => {
       method: 'eth_getLogs',
       params: [
         {
-          address: DEPLOY_CONFIG.contractAddress,
-          fromBlock: '0x8042DE', // converted decimal block number to hexadecimal
-          limit: 20
+          address: DEPLOY_CONFIG.tokenAddress,
+          topics: [DEPLOY_CONFIG.mintTokenTopic],
+          fromBlock: '0x80CA24', // converted decimal block number to hexadecimal
+          limit
         },
       ],
       id: 0,
@@ -57,20 +61,22 @@ export const fetchNFTList = () => async (dispatch: Dispatch<any>) => {
       }
     })
   
-    const contract = new ethers.Contract(DEPLOY_CONFIG.contractAddress, DEPLOY_CONFIG.contractABI, new ethers.providers.JsonRpcProvider(process.env['NX_INFURA_GOERLI_ENDPOINT']!))
+    const contract = new ethers.Contract(DEPLOY_CONFIG.tokenAddress, DEPLOY_CONFIG.tokenABI, new ethers.providers.JsonRpcProvider(process.env['NX_INFURA_GOERLI_ENDPOINT']!))
     const nftList: NFT[] = await Promise.all(tnxs.map(async (txn: { id: string, to: string, txnHash: string }): Promise<NFT> => {
       if (txn.id === '0x') txn.id = '0x0'
       const nftData = await contract['tokensData'](txn.id)
-
+      const price = ethers.utils.formatEther(nftData.price)
+      
       return {
         id: txn.id,
         name: nftData.name,
         description: nftData.description,
         hash: nftData.ipfsHash,
-        price: nftData.price,
+        price: price,
         contactAddress: nftData.contactAddress,
         owner: txn.to,
-        verified: nftData.verified
+        verified: nftData.verified,
+        txnHash: txn.txnHash
       }
     }))
     dispatchNFTFetchSuccess(nftList)(dispatch)
@@ -80,12 +86,29 @@ export const fetchNFTList = () => async (dispatch: Dispatch<any>) => {
 
 }
 
-// archive eth_call params
-      //params: [
-      //   {
-      //     to: DEPLOY_CONFIG.contractAddress,
-      //     data: ethers.utils.id('nftData(uint256)').slice(0, 10) + ethers.utils.hexZeroPad(txn.id, 32).slice(2)
-      //   },
-      //   'latest'
-      // ],
-// archive converting to 32 bytes '0x' + web3.utils.padLeft(DEPLOY_CONFIG.contractAddress.replace('0x', ''), 64)
+export const authorizeMarketplace = () => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatchApproveMarketplaceRequest()(dispatch)
+    const contract = new ethers.Contract(DEPLOY_CONFIG.tokenAddress, DEPLOY_CONFIG.tokenABI, window.web3Provider.getSigner())
+    const approveAllTxn = await contract['setApprovalForAll'](DEPLOY_CONFIG.marketplaceAddress, true)
+    
+    await approveAllTxn.wait()
+    dispatchApproveMarketplaceSuccess()(dispatch)
+  } catch (error: any) {
+    dispatchApproveMarketplaceFailure(error.message)(dispatch)
+  }
+}
+
+export const checkMarketplaceAuthorization = () => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatchApproveMarketplaceRequest()(dispatch)
+    const contract = new ethers.Contract(DEPLOY_CONFIG.tokenAddress, DEPLOY_CONFIG.tokenABI, window.web3Provider.getSigner())
+    const isApproved = await contract['isApprovedForAll'](await window.web3Provider.getSigner().getAddress(), DEPLOY_CONFIG.marketplaceAddress)
+
+    if (isApproved) {
+      dispatchApproveMarketplaceSuccess()(dispatch)
+    }
+  } catch (error: any) {
+    dispatchApproveMarketplaceFailure(error.message)(dispatch)
+  }
+}
