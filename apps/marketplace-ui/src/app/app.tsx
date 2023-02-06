@@ -10,13 +10,16 @@ import ViewDetails from './viewDetails'
 import './css/app.css'
 import { AppContext } from './contexts'
 import { Modal } from './components/modal'
-import { authorizeMarketplace, checkMarketplaceAuthorization, fetchNFTList, uploadNFTToIPFS } from './actions/app'
+import { authorizeMarketplace, checkMarketplaceAuthorization, fetchNFTList, transferNFT, uploadNFTToIPFS } from './actions/app'
 import { appInitialState, appReducer } from './reducers/app'
 
 export function App() {
   const [openModal, setOpenModal] = useState<boolean>(false)
+  const [openTransferModal, setOpenTransferModal] = useState<boolean>(false)
   const [modalMessage, setModalMessage] = useState<JSX.Element>(<></>)
   const [userAccount, setUserAccount] = useState<string>('')
+  const [transferAddress, setTransferAddress] = useState<string>('')
+  const [transferId, setTransferId] = useState<string>('')
   const [appState, dispatch] = useReducer(appReducer, appInitialState)
 
   useEffect(() => {
@@ -45,10 +48,24 @@ export function App() {
     }
   }
 
+  const handleTransferNFT = async () => {
+    try {
+      await transferNFT(userAccount, transferId, transferAddress)(dispatch)
+      setOpenTransferModal(false)
+      setModalMessage(<span>NFT successfully transferred to {transferAddress}</span>)
+      setOpenModal(true)
+    } catch (error: any) {
+      setModalMessage(<span>{error.message}</span>)
+      setOpenModal(true)
+    }
+  }
+
   const value = {
     userAccount,
     setOpenModal,
     setModalMessage,
+    setOpenTransferModal,
+    setTransferId,
     handleConnectWallet,
     uploadNFTToIPFS,
     fetchNFTList,
@@ -72,11 +89,17 @@ export function App() {
           <Footer />
         </React.Fragment>
       </Router>
-      {
-          openModal && <Modal title='Notification' fnClose={() => setOpenModal(false) } fnOk={() => { setOpenModal(false) }}>{ modalMessage }</Modal>
-      }
+      { openModal && <Modal title='Notification' fnClose={() => setOpenModal(false) } fnOk={() => { setOpenModal(false) }}>{ modalMessage }</Modal> }
+      { openTransferModal && <Modal title='Transfer NFT' fnClose={() => setOpenTransferModal(false) } fnOk={handleTransferNFT}>
+        <div>
+          <span><strong>Paste recipient address: </strong></span>
+          <div className='transfer-nft'>
+            <input type='text' className='border-1 mt--15 mb--30' placeholder='Enter address' value={transferAddress} onChange={(e) => setTransferAddress(e.target.value)} style={{ fontSize: 12, border: '1px solid #acacac', borderRadius: 4 }} />
+          </div>
+        </div>
+      </Modal> }
     </AppContext.Provider>
   )
 }
 
-export default App;
+export default App

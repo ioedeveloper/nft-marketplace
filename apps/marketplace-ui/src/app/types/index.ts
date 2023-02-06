@@ -11,7 +11,9 @@ export interface IAppContext {
     userAccount: string,
     appState: AppState,
     setOpenModal: (open: boolean) => void,
+    setOpenTransferModal: (open: boolean) => void,
     setModalMessage: (message: JSX.Element) => void,
+    setTransferId: (id: string) => void,
     handleConnectWallet: () => void,
     uploadNFTToIPFS: (nft: NFT) => (dispatch: Dispatch<any>) => Promise<void>,
     fetchNFTList: (limit?: number) => (dispatch: Dispatch<any>) => Promise<void>,
@@ -63,4 +65,9 @@ export type NFT = {
     hash?: string,
     verified?: boolean,
     txnHash?: string
+}
+
+export type NFTCardProps = {
+    index: number,
+    nft: NFT
 }

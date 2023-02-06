@@ -1,10 +1,11 @@
 import { useContext, useEffect } from "react";
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
+import { NFTCard } from "./components/nft-card";
 import NFTPlaceholder from "./components/placeholder";
 import { AppContext } from "./contexts";
 
 export function ViewDetails() {
-    const { dispatch, fetchNFTList, appState } = useContext(AppContext)
+    const { dispatch, fetchNFTList, appState, userAccount } = useContext(AppContext)
     const { id } = useParams()
     const nftIndex = parseInt(id!)
     const nft = appState.nft.nftList[nftIndex]
@@ -15,6 +16,18 @@ export function ViewDetails() {
 
     return nft ? (
         <div>
+            {
+            !nft.verified &&
+                <div className="rn-page-wrapper">
+                    <div className="rn-section-gapTop">
+                        <div className="container">
+                            <div className="alert alert-danger d-flex justify-content-between" role="alert">
+                                <span><strong>Warning: This NFT is Unverified. Only buy NFTs that have been verified by the admin to ensure the authenticity and legitimacy of the transaction. Unverified NFTs may result in financial loss and should be avoided.</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
             <div className="product-details-area rn-section-gapTop">
                 <div className="container">
                     <div className="row g-5">
@@ -49,12 +62,11 @@ export function ViewDetails() {
                                     </div>
                                 </div>
                                 <span className="bid">Price <span className="price">{nft.price}ETH</span></span>
+                                { nft.verified ? <a href="#" className="badge badge-success text-success">Verified</a> : <span className="badge badge-danger text-danger">NFT is Unverified</span> }
                                 <div>
-                                    <button type="button" className="btn btn-primary-alta mt--30 mr--30" data-bs-toggle="modal" data-bs-target="#placebidModal">BUY</button>
-                                    <button type="button" className="btn btn-primary-alta mt--30 mr--30" data-bs-toggle="modal" data-bs-target="#placebidModal">Transfer Ownership</button>
-                                    <button type="button" className="btn btn-primary-alta mt--30" data-bs-toggle="modal" data-bs-target="#placebidModal">Submit For Verification</button>
+                                    { userAccount !== nft.owner && <button type="button" className="btn btn-primary-alta mt--30 mr--30" data-bs-toggle="modal" data-bs-target="#placebidModal">BUY</button> }
+                                    { userAccount === nft.owner && <button type="button" className="btn btn-primary-alta mt--30 mr--30" data-bs-toggle="modal" data-bs-target="#placebidModal">Transfer Ownership</button> }
                                 </div>
-                                { nft.verified ? <a href="#" className="badge badge-success text-success">Verified</a> : <span className="badge badge-danger text-danger">Unverified</span> }
                             </div>
                         </div>
 
@@ -72,26 +84,7 @@ export function ViewDetails() {
                             </div>
                         </div>
                         <div className="row g-5">
-                            { appState.nft.nftList.map((nft, index) => (index < 5) && (index !== nftIndex) && (
-                                    <div className="col-5 col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div className="product-style-one no-overlay">
-                                            <div className="card-thumbnail">
-                                                <Link to={`/view-details/${index}`}><img src={`https://ipfs.io/ipfs/${nft.hash}`} alt="NFT_portfolio" /></Link>
-                                            </div>
-                                            <div className='py-3'>
-                                                <Link to={`/view-details/${index}`}><span className="product-name">{nft.name}</span></Link>
-                                            </div>
-                                            <div className="bid-react-area">
-                                                <div className="last-bid">{nft.price}ETH</div>
-                                                <div className="react-area border border-info">
-                                                    <span className="number">BUY</span>
-                                                    { nft.verified ? <a href="#" className="badge badge-success text-success">Verified</a> : <span className="badge badge-danger text-danger">Unverified</span> }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))
-                            }
+                            { appState.nft.nftList.map((nft, index) => (index < 5) && (index !== nftIndex) && <NFTCard key={index} nft={nft} index={index} /> )}
                         </div>
                     </div>
                 </div>

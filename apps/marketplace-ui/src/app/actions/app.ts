@@ -112,3 +112,29 @@ export const checkMarketplaceAuthorization = () => async (dispatch: Dispatch<any
     dispatchApproveMarketplaceFailure(error.message)(dispatch)
   }
 }
+
+export const transferNFT = (owner: string, id: string, to: string) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatchApproveMarketplaceRequest()(dispatch)
+    const contract = new ethers.Contract(DEPLOY_CONFIG.tokenAddress, DEPLOY_CONFIG.tokenABI, window.web3Provider.getSigner())
+    const transferTxn = await contract['transferFrom'](owner, to, id)
+
+    await transferTxn.wait()
+    dispatchApproveMarketplaceSuccess()(dispatch)
+  } catch (error: any) {
+    dispatchApproveMarketplaceFailure(error.message)(dispatch)
+  }
+}
+
+// export const buyNFT = (nft: NFT) => async (dispatch: Dispatch<any>) => {
+//   try {
+//     dispatchApproveMarketplaceRequest()(dispatch)
+//     const contract = new ethers.Contract(DEPLOY_CONFIG.marketplaceAddress, DEPLOY_CONFIG.marketplaceABI, window.web3Provider.getSigner())
+//     const buyTxn = await contract['buy'](nft.id)
+
+//     await buyTxn.wait()
+//     dispatchApproveMarketplaceSuccess()(dispatch)
+//   } catch (error: any) {
+//     dispatchApproveMarketplaceFailure(error.message)(dispatch)
+//   }
+// }
