@@ -63,6 +63,15 @@ export function AdminPanel() {
                     </div>
                 </div> :
                 <div className="rn-upcoming-area rn-section-gap">
+                    <div className="rn-page-wrapper">
+                        <div className="rn-section-gapTop">
+                            <div className="container">
+                                <div className="alert alert-info d-flex justify-content-between" role="alert">
+                                    <span className="pt--10"><strong>NOTE: Ensure that you verify the authenticity of an artwork submitted before approving the NFT to protect buyers.</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div className="container">
                         <div className="row">
                             <div className="col-12">
