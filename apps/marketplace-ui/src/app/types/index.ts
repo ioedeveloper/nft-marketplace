@@ -4,6 +4,7 @@ export interface ModalProps {
     title: string,
     fnOk: () => void,
     fnClose: () => void,
+    fnTitle?: string,
     children: JSX.Element
 }
 
@@ -12,12 +13,14 @@ export interface IAppContext {
     appState: AppState,
     setOpenModal: (open: boolean) => void,
     setOpenTransferModal: (open: boolean) => void,
+    setOpenApprovalModal: (open: boolean) => void,
     setModalMessage: (message: JSX.Element) => void,
     setTransferId: (id: string) => void,
     handleConnectWallet: () => void,
     uploadNFTToIPFS: (nft: NFT) => (dispatch: Dispatch<any>) => Promise<void>,
     fetchNFTList: (limit?: number) => (dispatch: Dispatch<any>) => Promise<void>,
     authorizeMarketplace: () => (dispatch: Dispatch<any>) => Promise<void>,
+    buyNFT: (nft: NFT, buyer: string) => (dispatch: Dispatch<any>) => Promise<void>,
     dispatch: Dispatch<any>
 }
 
@@ -28,9 +31,9 @@ export interface ActionPayloadTypes {
     UPLOAD_NFT_TO_IPFS_REQUEST: undefined,
     UPLOAD_NFT_TO_IPFS_SUCCESS: NFT,
     UPLOAD_NFT_TO_IPFS_FAILURE: string,
-    APPROVE_MARKETPLACE_REQUEST: undefined,
-    APPROVE_MARKETPLACE_SUCCESS: undefined,
-    APPROVE_MARKETPLACE_FAILURE: string
+    MARKETPLACE_REQUEST: undefined,
+    MARKETPLACE_APPROVED: undefined,
+    MARKETPLACE_FAILURE: string
 }
 
 

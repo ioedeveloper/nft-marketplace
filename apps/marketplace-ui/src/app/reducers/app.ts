@@ -73,7 +73,7 @@ export const appReducer = (state = appInitialState, action: Actions): AppState =
                 }
             }
         
-        case 'APPROVE_MARKETPLACE_REQUEST':
+        case 'MARKETPLACE_REQUEST':
             return {
                 ...state,
                 marketplace: {
@@ -82,7 +82,7 @@ export const appReducer = (state = appInitialState, action: Actions): AppState =
                 }
             }
         
-        case 'APPROVE_MARKETPLACE_SUCCESS':
+        case 'MARKETPLACE_APPROVED':
             return {
                 ...state,
                 marketplace: {
@@ -92,7 +92,7 @@ export const appReducer = (state = appInitialState, action: Actions): AppState =
                 }
             }
 
-        case 'APPROVE_MARKETPLACE_FAILURE':
+        case 'MARKETPLACE_FAILURE':
             return {
                 ...state,
                 marketplace: {

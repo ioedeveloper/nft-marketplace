@@ -3,7 +3,7 @@ import { create } from "ipfs-http-client"
 import { Buffer } from "buffer"
 import { ethers } from "ethers"
 import axios from "axios"
-import { dispatchApproveMarketplaceFailure, dispatchApproveMarketplaceRequest, dispatchApproveMarketplaceSuccess, dispatchNFTFetchFailure, dispatchNFTFetchRequest, dispatchNFTFetchSuccess, dispatchNFTUploadFailure, dispatchNFTUploadRequest, dispatchNFTUploadSuccess } from "./dispatch"
+import { dispatchMarketplaceFailure, dispatchMarketplaceRequest, dispatchMarketplaceApproved, dispatchNFTFetchFailure, dispatchNFTFetchRequest, dispatchNFTFetchSuccess, dispatchNFTUploadFailure, dispatchNFTUploadRequest, dispatchNFTUploadSuccess } from "./dispatch"
 import { NFT } from "../types"
 import { DEPLOY_CONFIG } from "../config/deploy"
 
@@ -46,7 +46,7 @@ export const fetchNFTList = (limit = 20) => async (dispatch: Dispatch<any>) => {
         {
           address: DEPLOY_CONFIG.tokenAddress,
           topics: [DEPLOY_CONFIG.mintTokenTopic],
-          fromBlock: '0x80CA24', // converted decimal block number to hexadecimal
+          fromBlock: '0x80E5B7', // converted decimal block number to hexadecimal
           limit
         },
       ],
@@ -55,8 +55,7 @@ export const fetchNFTList = (limit = 20) => async (dispatch: Dispatch<any>) => {
   
     const tnxs = response.data.result.map((txn: { topics: string[], transactionHash: string }) => {
       return {
-        id: ethers.utils.hexStripZeros(txn.topics[3]),
-        to: ethers.utils.hexZeroPad(ethers.utils.hexStripZeros(txn.topics[2]), 20),
+        id: ethers.utils.hexStripZeros(txn.topics[1]),
         txnHash: txn.transactionHash,
       }
     })
@@ -74,7 +73,7 @@ export const fetchNFTList = (limit = 20) => async (dispatch: Dispatch<any>) => {
         hash: nftData.ipfsHash,
         price: price,
         contactAddress: nftData.contactAddress,
-        owner: txn.to,
+        owner: nftData.owner,
         verified: nftData.verified,
         txnHash: txn.txnHash
       }
@@ -88,53 +87,57 @@ export const fetchNFTList = (limit = 20) => async (dispatch: Dispatch<any>) => {
 
 export const authorizeMarketplace = () => async (dispatch: Dispatch<any>) => {
   try {
-    dispatchApproveMarketplaceRequest()(dispatch)
+    dispatchMarketplaceRequest()(dispatch)
     const contract = new ethers.Contract(DEPLOY_CONFIG.tokenAddress, DEPLOY_CONFIG.tokenABI, window.web3Provider.getSigner())
     const approveAllTxn = await contract['setApprovalForAll'](DEPLOY_CONFIG.marketplaceAddress, true)
     
     await approveAllTxn.wait()
-    dispatchApproveMarketplaceSuccess()(dispatch)
+    dispatchMarketplaceApproved()(dispatch)
   } catch (error: any) {
-    dispatchApproveMarketplaceFailure(error.message)(dispatch)
+    dispatchMarketplaceFailure(error.message)(dispatch)
   }
 }
 
 export const checkMarketplaceAuthorization = () => async (dispatch: Dispatch<any>) => {
   try {
-    dispatchApproveMarketplaceRequest()(dispatch)
     const contract = new ethers.Contract(DEPLOY_CONFIG.tokenAddress, DEPLOY_CONFIG.tokenABI, window.web3Provider.getSigner())
     const isApproved = await contract['isApprovedForAll'](await window.web3Provider.getSigner().getAddress(), DEPLOY_CONFIG.marketplaceAddress)
 
     if (isApproved) {
-      dispatchApproveMarketplaceSuccess()(dispatch)
+      dispatchMarketplaceApproved()(dispatch)
     }
   } catch (error: any) {
-    dispatchApproveMarketplaceFailure(error.message)(dispatch)
+    dispatchMarketplaceFailure(error.message)(dispatch)
   }
 }
 
-export const transferNFT = (owner: string, id: string, to: string) => async (dispatch: Dispatch<any>) => {
+export const transferNFT = (owner: string, to: string, id: string, ) => async (dispatch: Dispatch<any>) => {
   try {
-    dispatchApproveMarketplaceRequest()(dispatch)
-    const contract = new ethers.Contract(DEPLOY_CONFIG.tokenAddress, DEPLOY_CONFIG.tokenABI, window.web3Provider.getSigner())
-    const transferTxn = await contract['transferFrom'](owner, to, id)
+    dispatchMarketplaceRequest()(dispatch)
+    const marketplace = new ethers.Contract(DEPLOY_CONFIG.marketplaceAddress, DEPLOY_CONFIG.marketplaceABI, window.web3Provider.getSigner())
+    const transferTxn = await marketplace['transferTokenOwnership'](owner, to, id)
 
     await transferTxn.wait()
-    dispatchApproveMarketplaceSuccess()(dispatch)
+    await fetchNFTList()(dispatch)
   } catch (error: any) {
-    dispatchApproveMarketplaceFailure(error.message)(dispatch)
+    console.log(error)
+    dispatchMarketplaceFailure(error.message)(dispatch)
   }
 }
 
-// export const buyNFT = (nft: NFT) => async (dispatch: Dispatch<any>) => {
-//   try {
-//     dispatchApproveMarketplaceRequest()(dispatch)
-//     const contract = new ethers.Contract(DEPLOY_CONFIG.marketplaceAddress, DEPLOY_CONFIG.marketplaceABI, window.web3Provider.getSigner())
-//     const buyTxn = await contract['buy'](nft.id)
+export const buyNFT = (nft: NFT, buyer: string) => async (dispatch: Dispatch<any>) => {
+  try {
+    dispatchMarketplaceRequest()(dispatch)
+    const contract = new ethers.Contract(DEPLOY_CONFIG.marketplaceAddress, DEPLOY_CONFIG.marketplaceABI, window.web3Provider.getSigner())
+    const buyTxn = await contract['buy'](nft.owner, buyer, nft.id, ethers.utils.parseEther(nft.price))
 
-//     await buyTxn.wait()
-//     dispatchApproveMarketplaceSuccess()(dispatch)
-//   } catch (error: any) {
-//     dispatchApproveMarketplaceFailure(error.message)(dispatch)
-//   }
-// }
+    await buyTxn.wait()
+    await fetchNFTList()(dispatch)
+  } catch (error: any) {
+    if (error.message.indexOf('caller is not token owner or approved') > 0) {
+      dispatchMarketplaceFailure('Sorry we cannot complete your purchase because the owner of this NFT has not approved the marketplace to allow sales.')(dispatch)
+    } else {
+        dispatchMarketplaceFailure(error.message)(dispatch)
+    }
+  }
+}

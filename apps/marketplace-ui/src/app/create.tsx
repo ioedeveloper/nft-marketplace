@@ -52,20 +52,16 @@ export function CreateNFT() {
         const ownerAddress = userAccount
 
         if (ownerAddress) {
-            try {
-                imageFile && await uploadNFTToIPFS({
-                    owner: ownerAddress,
-                    name: artworkName,
-                    description: artworkDescription,
-                    price: artworkPrice,
-                    contactAddress,
-                    image: imageFile
-                })(dispatch)
-                setModalMessage(<span>Artwork successfully uploaded to IPFS</span>)
-                setOpenModal(true)
-            } catch {
-                console.log("Error uploading NFT to IPFS")
-            }
+            imageFile && await uploadNFTToIPFS({
+                owner: ownerAddress,
+                name: artworkName,
+                description: artworkDescription,
+                price: artworkPrice,
+                contactAddress,
+                image: imageFile
+            })(dispatch)
+            setModalMessage(<span>Artwork successfully uploaded to IPFS</span>)
+            setOpenModal(true)
         } else {
             handleConnectWallet()
         }
@@ -102,7 +98,7 @@ export function CreateNFT() {
                     <div className="container">
                         <div className="alert alert-danger d-flex justify-content-between" role="alert">
                             <span className="pt--10"><strong>Warning: You must give approval to the NFT marketplace before you can mint tokens. Please make sure to complete this step in order to proceed with the token minting process.</strong></span>
-                            <button type="button" className="btn btn-success" onClick={() => approveMarketplace()}>Approve</button>
+                            <button type="button" className="btn btn-success" onClick={() => approveMarketplace()} disabled={appState.marketplace.requesting}>{ !appState.marketplace.requesting ? 'Approve' : <FontAwesomeIcon icon={icon({name: 'ellipsis', style: 'solid' })} beat /> }</button>
                         </div>
                     </div>
                 </div>

@@ -22,7 +22,7 @@ export function Header() {
                                     <li><Link to='/'>Home</Link></li>
                                     <li><Link to='/collection'>Our Collection</Link></li>
                                     <li><Link to='/create'>Sell NFT</Link></li>
-                                    <li><Link to='/admin'>Admin</Link></li>
+                                    <li><Link to='/admin-panel'>Admin</Link></li>
                                 </ul>
                                 {/* <!-- End Mainmanu Nav --> */}
                             </nav>

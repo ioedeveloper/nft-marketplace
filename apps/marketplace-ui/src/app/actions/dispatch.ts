@@ -25,14 +25,14 @@ export const dispatchNFTFetchFailure = (error: string) => (dispatch: Dispatch<Ac
     dispatch({ type: 'FETCH_NFT_LIST_FAILURE', payload: error })
 }
 
-export const dispatchApproveMarketplaceRequest = () => (dispatch: Dispatch<Action<'APPROVE_MARKETPLACE_REQUEST'>>) => {
-    dispatch({ type: 'APPROVE_MARKETPLACE_REQUEST', payload: undefined })
+export const dispatchMarketplaceRequest = () => (dispatch: Dispatch<Action<'MARKETPLACE_REQUEST'>>) => {
+    dispatch({ type: 'MARKETPLACE_REQUEST', payload: undefined })
 }
 
-export const dispatchApproveMarketplaceSuccess = () => (dispatch: Dispatch<Action<'APPROVE_MARKETPLACE_SUCCESS'>>) => {
-    dispatch({ type: 'APPROVE_MARKETPLACE_SUCCESS', payload: undefined })
+export const dispatchMarketplaceApproved = () => (dispatch: Dispatch<Action<'MARKETPLACE_APPROVED'>>) => {
+    dispatch({ type: 'MARKETPLACE_APPROVED', payload: undefined })
 }
 
-export const dispatchApproveMarketplaceFailure = (error: string) => (dispatch: Dispatch<Action<'APPROVE_MARKETPLACE_FAILURE'>>) => {
-    dispatch({ type: 'APPROVE_MARKETPLACE_FAILURE', payload: error })
+export const dispatchMarketplaceFailure = (error: string) => (dispatch: Dispatch<Action<'MARKETPLACE_FAILURE'>>) => {
+    dispatch({ type: 'MARKETPLACE_FAILURE', payload: error })
 }
