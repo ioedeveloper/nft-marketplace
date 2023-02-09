@@ -88,10 +88,6 @@ export function App() {
     setOpenApprovalModal,
     setTransferId,
     handleConnectWallet,
-    uploadNFTToIPFS,
-    fetchNFTList,
-    authorizeMarketplace,
-    buyNFT,
     appState,
     dispatch
   }

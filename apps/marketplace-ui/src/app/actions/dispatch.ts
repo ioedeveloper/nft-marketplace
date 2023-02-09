@@ -36,3 +36,15 @@ export const dispatchMarketplaceApproved = () => (dispatch: Dispatch<Action<'MAR
 export const dispatchMarketplaceFailure = (error: string) => (dispatch: Dispatch<Action<'MARKETPLACE_FAILURE'>>) => {
     dispatch({ type: 'MARKETPLACE_FAILURE', payload: error })
 }
+
+export const dispatchBuyNFT = (id: string, newOwner: string) => (dispatch: Dispatch<Action<'BUY_NFT'>>) => {
+    dispatch({ type: 'BUY_NFT', payload: { id, owner: newOwner }})
+}
+
+export const dispatchTransferNFT = (id: string, newOwner: string) => (dispatch: Dispatch<Action<'TRANSFER_NFT'>>) => {
+    dispatch({ type: 'TRANSFER_NFT', payload: { id, owner: newOwner }})
+}
+
+export const dispatchVerifyNFT = (id: string) => (dispatch: Dispatch<Action<'VERIFY_NFT'>>) => {
+    dispatch({ type: 'VERIFY_NFT', payload: id })
+}

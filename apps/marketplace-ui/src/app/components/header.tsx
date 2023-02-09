@@ -43,7 +43,7 @@ export function Header() {
 
                         <div className="setting-option header-btn rbt-site-header" id="rbt-site-header">
                             <div className="icon-box">
-                                { userAccount ? `Address: ${shortenAddress(userAccount)}` : <button id="connectbtn" className="btn btn-primary-alta btn-small" onClick={handleConnectWallet}>Connect Wallet</button> }
+                                { userAccount ? <a href={`https://goerli.etherscan.io/address/${userAccount}`}>Address: {shortenAddress(userAccount)}</a> : <button id="connectbtn" className="btn btn-primary-alta btn-small" onClick={handleConnectWallet}>Connect Wallet</button> }
                             </div>
                         </div>
                     </div>

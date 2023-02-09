@@ -1,12 +1,13 @@
 
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { buyNFT } from '../actions/app'
 import { AppContext } from '../contexts'
 import { NFTCardProps } from '../types'
 
 export function NFTCard (props: NFTCardProps) {
     const [pending, setPending] = useState<boolean>(false)
-    const { dispatch, appState, userAccount, setTransferId, setOpenTransferModal, setOpenApprovalModal, buyNFT } = useContext(AppContext)
+    const { dispatch, appState, userAccount, setTransferId, setOpenTransferModal, setOpenApprovalModal } = useContext(AppContext)
     const { index, nft } = props
 
     const handleBuyNFT = async () => {

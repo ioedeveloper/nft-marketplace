@@ -1,11 +1,12 @@
 import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { fetchNFTList } from "./actions/app";
 import { NFTCard } from "./components/nft-card";
 import NFTPlaceholder from "./components/placeholder";
 import { AppContext } from "./contexts";
 
 export function Collection() {
-    const { dispatch, fetchNFTList, appState, userAccount } = useContext(AppContext)
+    const { dispatch, appState, userAccount } = useContext(AppContext)
 
     useEffect(() => {
         if (appState.nft.nftList.length < 50) fetchNFTList(50)(dispatch)

@@ -3,7 +3,7 @@ import { create } from "ipfs-http-client"
 import { Buffer } from "buffer"
 import { ethers } from "ethers"
 import axios from "axios"
-import { dispatchMarketplaceFailure, dispatchMarketplaceRequest, dispatchMarketplaceApproved, dispatchNFTFetchFailure, dispatchNFTFetchRequest, dispatchNFTFetchSuccess, dispatchNFTUploadFailure, dispatchNFTUploadRequest, dispatchNFTUploadSuccess } from "./dispatch"
+import { dispatchMarketplaceFailure, dispatchMarketplaceRequest, dispatchMarketplaceApproved, dispatchNFTFetchFailure, dispatchNFTFetchRequest, dispatchNFTFetchSuccess, dispatchNFTUploadFailure, dispatchNFTUploadRequest, dispatchNFTUploadSuccess, dispatchVerifyNFT, dispatchBuyNFT, dispatchTransferNFT } from "./dispatch"
 import { NFT } from "../types"
 import { DEPLOY_CONFIG } from "../config/deploy"
 
@@ -119,6 +119,7 @@ export const transferNFT = (owner: string, to: string, id: string, ) => async (d
 
     await transferTxn.wait()
     await fetchNFTList()(dispatch)
+    dispatchTransferNFT(id, to)(dispatch)
   } catch (error: any) {
     console.log(error)
     dispatchMarketplaceFailure(error.message)(dispatch)
@@ -127,12 +128,11 @@ export const transferNFT = (owner: string, to: string, id: string, ) => async (d
 
 export const buyNFT = (nft: NFT, buyer: string) => async (dispatch: Dispatch<any>) => {
   try {
-    dispatchMarketplaceRequest()(dispatch)
     const contract = new ethers.Contract(DEPLOY_CONFIG.marketplaceAddress, DEPLOY_CONFIG.marketplaceABI, window.web3Provider.getSigner())
     const buyTxn = await contract['buy'](nft.owner, buyer, nft.id, ethers.utils.parseEther(nft.price))
 
     await buyTxn.wait()
-    await fetchNFTList()(dispatch)
+    dispatchBuyNFT(nft.id!, buyer)(dispatch)
   } catch (error: any) {
     if (error.message.indexOf('caller is not token owner or approved') > 0) {
       dispatchMarketplaceFailure('Sorry we cannot complete your purchase because the owner of this NFT has not approved the marketplace to allow sales.')(dispatch)
@@ -140,4 +140,12 @@ export const buyNFT = (nft: NFT, buyer: string) => async (dispatch: Dispatch<any
         dispatchMarketplaceFailure(error.message)(dispatch)
     }
   }
+}
+
+export const verifyNFT = (id: string) => async (dispatch: Dispatch<any>) => {
+    const contract = new ethers.Contract(DEPLOY_CONFIG.tokenAddress, DEPLOY_CONFIG.tokenABI, window.web3Provider.getSigner())
+    const verifyTxn = await contract['verifyMint'](id)
+
+    await verifyTxn.wait()
+    dispatchVerifyNFT(id)(dispatch)
 }

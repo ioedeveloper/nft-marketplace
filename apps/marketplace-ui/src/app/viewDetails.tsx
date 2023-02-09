@@ -1,18 +1,39 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
+import { buyNFT, fetchNFTList } from "./actions/app";
 import { NFTCard } from "./components/nft-card";
 import NFTPlaceholder from "./components/placeholder";
 import { AppContext } from "./contexts";
 
 export function ViewDetails() {
-    const { dispatch, fetchNFTList, appState, userAccount } = useContext(AppContext)
+    const { dispatch, appState, userAccount, setOpenApprovalModal, setTransferId, setOpenTransferModal } = useContext(AppContext)
     const { id } = useParams()
     const nftIndex = parseInt(id!)
     const nft = appState.nft.nftList[nftIndex]
+    const [pending, setPending] = useState<boolean>(false)
 
     useEffect(() => {
         if (!nft) fetchNFTList()(dispatch)
     }, [])
+
+    const handleBuyNFT = async () => {
+        if (!appState.marketplace.approved) {
+            setOpenApprovalModal(true)
+        } else {
+            setPending(true)
+            await buyNFT(nft, userAccount)(dispatch)
+            setPending(false)
+        }
+    }
+
+    const handleTransferNFT = async () => {
+        if (!appState.marketplace.approved) {
+            setOpenApprovalModal(true)
+        } else {
+            setTransferId(nft.id!)
+            setOpenTransferModal(true)
+        }
+    }
 
     return nft ? (
         <div>
@@ -64,8 +85,8 @@ export function ViewDetails() {
                                 <span className="bid">Price <span className="price">{nft.price}ETH</span></span>
                                 { nft.verified ? <a href="#" className="badge badge-success text-success">Verified</a> : <span className="badge badge-danger text-danger">NFT is Unverified</span> }
                                 <div>
-                                    { userAccount !== nft.owner && <button type="button" className="btn btn-primary-alta mt--30 mr--30" data-bs-toggle="modal" data-bs-target="#placebidModal">BUY</button> }
-                                    { userAccount === nft.owner && <button type="button" className="btn btn-primary-alta mt--30 mr--30" data-bs-toggle="modal" data-bs-target="#placebidModal">Transfer Ownership</button> }
+                                    { userAccount !== nft.owner && <button onClick={handleBuyNFT} type="button" className="btn btn-primary-alta mt--30 mr--30" data-bs-toggle="modal" data-bs-target="#placebidModal" disabled={pending}>{ pending ? 'Pending...' : 'BUY' }</button> }
+                                    { userAccount === nft.owner && <button onClick={handleTransferNFT} type="button" className="btn btn-primary-alta mt--30 mr--30" data-bs-toggle="modal" data-bs-target="#placebidModal" disabled={pending}>Transfer Ownership</button> }
                                 </div>
                             </div>
                         </div>

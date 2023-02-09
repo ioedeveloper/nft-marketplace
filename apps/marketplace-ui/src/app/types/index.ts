@@ -17,10 +17,6 @@ export interface IAppContext {
     setModalMessage: (message: JSX.Element) => void,
     setTransferId: (id: string) => void,
     handleConnectWallet: () => void,
-    uploadNFTToIPFS: (nft: NFT) => (dispatch: Dispatch<any>) => Promise<void>,
-    fetchNFTList: (limit?: number) => (dispatch: Dispatch<any>) => Promise<void>,
-    authorizeMarketplace: () => (dispatch: Dispatch<any>) => Promise<void>,
-    buyNFT: (nft: NFT, buyer: string) => (dispatch: Dispatch<any>) => Promise<void>,
     dispatch: Dispatch<any>
 }
 
@@ -33,7 +29,10 @@ export interface ActionPayloadTypes {
     UPLOAD_NFT_TO_IPFS_FAILURE: string,
     MARKETPLACE_REQUEST: undefined,
     MARKETPLACE_APPROVED: undefined,
-    MARKETPLACE_FAILURE: string
+    MARKETPLACE_FAILURE: string,
+    BUY_NFT: { id: string, owner: string }
+    TRANSFER_NFT: { id: string, owner: string }
+    VERIFY_NFT: string,
 }
 
 

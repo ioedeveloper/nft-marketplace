@@ -6,9 +6,10 @@ import { useContext, useEffect } from 'react'
 import { AppContext } from './contexts'
 import NFTPlaceholder from './components/placeholder'
 import { NFTCard } from './components/nft-card'
+import { fetchNFTList } from './actions/app'
 
 export function Home() {
-    const { fetchNFTList, dispatch, appState, userAccount } = useContext(AppContext)
+    const { dispatch, appState, userAccount } = useContext(AppContext)
     
     useEffect(() => {
         if (appState.nft.nftList.length === 0) fetchNFTList()(dispatch)

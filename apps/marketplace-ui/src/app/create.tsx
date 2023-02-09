@@ -3,10 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { AppContext } from "./contexts"
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 import { Link } from "react-router-dom"
+import { authorizeMarketplace, uploadNFTToIPFS } from "./actions/app"
 
 
 export function CreateNFT() {
-    const { userAccount, appState, setModalMessage, setOpenModal, handleConnectWallet, uploadNFTToIPFS, authorizeMarketplace, dispatch } = useContext(AppContext)
+    const { userAccount, appState, setModalMessage, setOpenModal, handleConnectWallet, dispatch } = useContext(AppContext)
     const [imageFile, setImageFile] = useState<File>()
     const [backgroundImage, setBackgroundImage] = useState<string>("")
     const [artworkName, setArtworkName] = useState<string>("")
