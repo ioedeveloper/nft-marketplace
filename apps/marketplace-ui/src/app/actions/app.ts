@@ -7,7 +7,8 @@ import { dispatchMarketplaceFailure, dispatchMarketplaceRequest, dispatchMarketp
 import { NFT } from "../types"
 import { DEPLOY_CONFIG } from "../config/deploy"
 
-const infuraAuth = 'Basic ' + Buffer.from(process.env['NX_INFURA_PROJECT_ID'] + ':' + process.env['NX_INFURA_API_SECRET']).toString('base64')
+  // @ts-ignore
+const infuraAuth = 'Basic ' + Buffer.from(process.env.NX_INFURA_PROJECT_ID + ':' + process.env.NX_INFURA_API_SECRET).toString('base64')
 const infuraConfig = {
     host: 'ipfs.infura.io',
     port: 5001,
@@ -39,7 +40,8 @@ export const uploadNFTToIPFS = (nft: NFT) => async (dispatch: Dispatch<any>) => 
 export const fetchNFTList = (limit = 20) => async (dispatch: Dispatch<any>) => {
   try {
     dispatchNFTFetchRequest()(dispatch)
-    const response = await axios.post(process.env['NX_INFURA_GOERLI_ENDPOINT']!, JSON.stringify({
+    // @ts-ignore
+    const response = await axios.post(process.env.NX_INFURA_GOERLI_ENDPOINT!, JSON.stringify({
       jsonrpc: '2.0',
       method: 'eth_getLogs',
       params: [
