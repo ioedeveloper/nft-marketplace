@@ -8,6 +8,8 @@ import { NFT } from "../types"
 import { DEPLOY_CONFIG } from "../config/deploy"
 
   // @ts-ignore
+console.log('process.env.NX_INFURA_PROJECT_ID: ', process.env.NX_INFURA_PROJECT_ID)
+  // @ts-ignore
 const infuraAuth = 'Basic ' + Buffer.from(process.env.NX_INFURA_PROJECT_ID + ':' + process.env.NX_INFURA_API_SECRET).toString('base64')
 const infuraConfig = {
     host: 'ipfs.infura.io',
