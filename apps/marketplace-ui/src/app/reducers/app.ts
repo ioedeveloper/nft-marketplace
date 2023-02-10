@@ -5,6 +5,11 @@ export const appInitialState: AppState = {
         nftList: [],
         requesting: false,
         error: ''
+    },
+    marketplace: {
+        approved: false,
+        requesting: false,
+        error: ''
     }
 }
 
@@ -24,7 +29,7 @@ export const appReducer = (state = appInitialState, action: Actions): AppState =
                 ...state,
                 nft: {
                     ...state.nft,
-                    // nftList: action.payload,
+                    nftList: action.payload,
                     requesting: false
                 }
             }
@@ -65,6 +70,86 @@ export const appReducer = (state = appInitialState, action: Actions): AppState =
                     ...state.nft,
                     requesting: false,
                     error: action.payload
+                }
+            }
+        
+        case 'MARKETPLACE_REQUEST':
+            return {
+                ...state,
+                marketplace: {
+                    ...state.marketplace,
+                    requesting: true
+                }
+            }
+        
+        case 'MARKETPLACE_APPROVED':
+            return {
+                ...state,
+                marketplace: {
+                    ...state.marketplace,
+                    approved: true,
+                    requesting: false
+                }
+            }
+
+        case 'MARKETPLACE_FAILURE':
+            return {
+                ...state,
+                marketplace: {
+                    ...state.marketplace,
+                    error: action.payload,
+                    requesting: false
+                }
+            }
+
+        case 'BUY_NFT':
+            return {
+                ...state,
+                nft: {
+                    ...state.nft,
+                    nftList: state.nft.nftList.map(nft => {
+                        if (nft.id === action.payload.id) {
+                            return {
+                                ...nft,
+                                owner: action.payload.owner
+                            }
+                        }
+                        return nft
+                    })
+                }
+            }
+
+        case 'TRANSFER_NFT':
+            return {
+                ...state,
+                nft: {
+                    ...state.nft,
+                    nftList: state.nft.nftList.map(nft => {
+                        if (nft.id === action.payload.id) {
+                            return {
+                                ...nft,
+                                owner: action.payload.owner
+                            }
+                        }
+                        return nft
+                    })
+                }
+            }
+
+        case 'VERIFY_NFT':
+            return {
+                ...state,
+                nft: {
+                    ...state.nft,
+                    nftList: state.nft.nftList.map(nft => {
+                        if (nft.id === action.payload) {
+                            return {
+                                ...nft,
+                                verified: true
+                            }
+                        }
+                        return nft
+                    })
                 }
             }
 

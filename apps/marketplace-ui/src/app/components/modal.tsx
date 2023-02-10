@@ -12,7 +12,7 @@ export function Modal (props: ModalProps) {
             { props.children }
           </div>
           <div className="modal-footer">
-            { props.fnOk && <button type="button" className="btn btn-primary" onClick={props.fnOk}>OK</button> }
+            { props.fnOk && <button type="button" className="btn btn-primary" onClick={props.fnOk}>{ props.fnTitle || 'OK' }</button> }
             { props.fnClose && <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={props.fnClose}>Close</button> }
           </div>
         </div>

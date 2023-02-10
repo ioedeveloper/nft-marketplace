@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <div className="copy-right-one ptb--20 bg-color--1">
+    <div className="copy-right-one ptb--20 bg-color--1 mt-5">
         <div className="container">
             <div className="row align-items-center">
                 <div className="col-lg-6 col-md-12 col-sm-12">

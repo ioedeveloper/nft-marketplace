@@ -22,6 +22,7 @@ export function Header() {
                                     <li><Link to='/'>Home</Link></li>
                                     <li><Link to='/collection'>Our Collection</Link></li>
                                     <li><Link to='/create'>Sell NFT</Link></li>
+                                    <li><Link to='/admin-panel'>Admin</Link></li>
                                 </ul>
                                 {/* <!-- End Mainmanu Nav --> */}
                             </nav>
@@ -42,7 +43,7 @@ export function Header() {
 
                         <div className="setting-option header-btn rbt-site-header" id="rbt-site-header">
                             <div className="icon-box">
-                                { userAccount ? `Address: ${shortenAddress(userAccount)}` : <button id="connectbtn" className="btn btn-primary-alta btn-small" onClick={handleConnectWallet}>Connect Wallet</button> }
+                                { userAccount ? <a href={`https://goerli.etherscan.io/address/${userAccount}`}>Address: {shortenAddress(userAccount)}</a> : <button id="connectbtn" className="btn btn-primary-alta btn-small" onClick={handleConnectWallet}>Connect Wallet</button> }
                             </div>
                         </div>
                     </div>
