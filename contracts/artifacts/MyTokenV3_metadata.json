@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.9+commit.e5eed63a"
+		"version": "0.8.7+commit.e28d00a7"
 	},
 	"language": "Solidity",
 	"output": {
@@ -774,7 +774,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/marketplacev3.sol": "MyTokenV3"
+			"contracts/marketplacev4.sol": "MyTokenV3"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -782,7 +782,7 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
@@ -947,7 +947,7 @@
 				"dweb:/ipfs/QmcoLLx7QKY13k9JTWEEvtieBWMwHKgqzF4se8Divom3vo"
 			]
 		},
-		"contracts/marketplacev3.sol": {
+		"contracts/marketplacev4.sol": {
 			"keccak256": "0x5940f63ab8c661a7917b59fbd3d8e6abad05e8b655b084516dfdbd2467d7b5aa",
 			"urls": [
 				"bzz-raw://93855e118144d5b0dcaf95b77878022ad688cb2ae828661e2959cd559490aa38",

@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.9+commit.e5eed63a"
+		"version": "0.8.7+commit.e28d00a7"
 	},
 	"language": "Solidity",
 	"output": {
@@ -98,6 +98,31 @@
 					}
 				],
 				"name": "Initialized",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_to",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes32",
+						"name": "_data",
+						"type": "bytes32"
+					}
+				],
+				"name": "MintToken",
 				"type": "event"
 			},
 			{
@@ -214,6 +239,25 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "getTokenPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "initialize",
 				"outputs": [],
@@ -252,57 +296,6 @@
 						"internalType": "string",
 						"name": "",
 						"type": "string"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "nftData",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "owner",
-						"type": "address"
-					},
-					{
-						"internalType": "bytes",
-						"name": "hash",
-						"type": "bytes"
-					},
-					{
-						"components": [
-							{
-								"internalType": "string",
-								"name": "name",
-								"type": "string"
-							},
-							{
-								"internalType": "uint16",
-								"name": "price",
-								"type": "uint16"
-							},
-							{
-								"internalType": "string",
-								"name": "description",
-								"type": "string"
-							},
-							{
-								"internalType": "string",
-								"name": "contactAddress",
-								"type": "string"
-							}
-						],
-						"internalType": "struct MyToken.TokenData",
-						"name": "payload",
-						"type": "tuple"
 					}
 				],
 				"stateMutability": "view",
@@ -354,79 +347,46 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_to",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "hash",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "contactAddress",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "description",
+						"type": "string"
+					}
+				],
+				"name": "publicMint",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "renounceOwnership",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "to",
-						"type": "address"
-					},
-					{
-						"internalType": "bytes",
-						"name": "hash",
-						"type": "bytes"
-					},
-					{
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"internalType": "uint16",
-						"name": "price",
-						"type": "uint16"
-					},
-					{
-						"internalType": "string",
-						"name": "contactAddress",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "description",
-						"type": "string"
-					}
-				],
-				"name": "safeMint",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "to",
-						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"internalType": "uint16",
-						"name": "price",
-						"type": "uint16"
-					},
-					{
-						"internalType": "string",
-						"name": "contactAddress",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "description",
-						"type": "string"
-					}
-				],
-				"name": "safeMint",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -567,36 +527,34 @@
 						"type": "address"
 					},
 					{
-						"internalType": "bytes",
-						"name": "hash",
-						"type": "bytes"
+						"internalType": "string",
+						"name": "ipfsHash",
+						"type": "string"
 					},
 					{
-						"components": [
-							{
-								"internalType": "string",
-								"name": "name",
-								"type": "string"
-							},
-							{
-								"internalType": "uint16",
-								"name": "price",
-								"type": "uint16"
-							},
-							{
-								"internalType": "string",
-								"name": "description",
-								"type": "string"
-							},
-							{
-								"internalType": "string",
-								"name": "contactAddress",
-								"type": "string"
-							}
-						],
-						"internalType": "struct MyToken.TokenData",
-						"name": "payload",
-						"type": "tuple"
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "description",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "contactAddress",
+						"type": "string"
+					},
+					{
+						"internalType": "bool",
+						"name": "verified",
+						"type": "bool"
 					}
 				],
 				"stateMutability": "view",
@@ -642,6 +600,24 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "_to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "transferOwnershipTokensData",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "newImplementation",
 						"type": "address"
 					}
@@ -667,6 +643,19 @@
 				"name": "upgradeToAndCall",
 				"outputs": [],
 				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "verifyMint",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			}
 		],
@@ -741,7 +730,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/marketplacev2.sol": "MyTokenV2"
+			"contracts/token.sol": "MyTokenV2"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -749,7 +738,7 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
@@ -804,11 +793,11 @@
 			]
 		},
 		"@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol": {
-			"keccak256": "0x2a6a0b9fd2d316dcb4141159a9d13be92654066d6c0ae92757ed908ecdfecff0",
+			"keccak256": "0xc5e471876a368a03057ee54d8617916e8af7e07b86753646921982b427cd50a4",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c05d9be7ee043009eb9f2089b452efc0961345531fc63354a249d7337c69f3bb",
-				"dweb:/ipfs/QmTXhzgaYrh6og76BP85i6exNFAv5NYw64uVWyworNogyG"
+				"bzz-raw://1b029c0f5a7391be0bb9dca897ddb217f312bce1a50caf4be00200fb8f5e3a05",
+				"dweb:/ipfs/QmfJ5cEthcJYynEhypGELSu9dPAr788G6G3fqtczJvoqbw"
 			]
 		},
 		"@openzeppelin/contracts-upgradeable/token/ERC721/IERC721ReceiverUpgradeable.sol": {
@@ -899,19 +888,20 @@
 				"dweb:/ipfs/QmXRUpywAqNwAfXS89vrtiE2THRM9dX9pQ4QxAkV1Wx9kt"
 			]
 		},
-		"contracts/marketplace.sol": {
-			"keccak256": "0xafe15774986419e84afa180c8cae07b19c0d8e749857219d099c4c0eab47ffcd",
+		"contracts/token.sol": {
+			"keccak256": "0x97e234bec71e054e17ee29d5620f759f86917d7243a3f9ee724ccca1d762ba57",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6c90d2c7bc98dc21e3c23ad0a4639f9c21f63a054112bcef237993dc4d228484",
-				"dweb:/ipfs/QmcZBTHTiLyAnvfKPDYmJ2ZhNjwB6R5PghYoUMoE9L6b69"
+				"bzz-raw://457ad1daab32ffd4ff4ed74666acc14874e84c0841d841025dd96c950e1f6c3c",
+				"dweb:/ipfs/Qmcpe3UkovMJMpWbxgScs6vPHgeZWEv8qx5Lcnkb9ejSPd"
 			]
 		},
-		"contracts/marketplacev2.sol": {
-			"keccak256": "0x4df0e73b31945a1c53095cbcfb554e476dda652326e204396cf4e46a4e8eaa63",
+		"hardhat/console.sol": {
+			"keccak256": "0x60b0215121bf25612a6739fb2f1ec35f31ee82e4a8216c032c8243d904ab3aa9",
+			"license": "MIT",
 			"urls": [
-				"bzz-raw://f2abc37a28942c3f9c814b300ffb8b39d4a28f7c4f806f164c4cef35eddee94b",
-				"dweb:/ipfs/QmcoLLx7QKY13k9JTWEEvtieBWMwHKgqzF4se8Divom3vo"
+				"bzz-raw://6e29880d33dd479bb046ba306993d26ccb779a4b1d94a046cb3567f22948bb4d",
+				"dweb:/ipfs/QmfTY1qzPt5C63Wc7y6JqfZr5899NRvXYdCpyLzR5FXQic"
 			]
 		}
 	},
