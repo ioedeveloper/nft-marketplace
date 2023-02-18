@@ -8,8 +8,6 @@ import { NFT } from "../types"
 import { DEPLOY_CONFIG } from "../config/deploy"
 
   // @ts-ignore
-console.log('process.env.NX_INFURA_PROJECT_ID: ', process.env.NX_INFURA_PROJECT_ID)
-  // @ts-ignore
 const infuraAuth = 'Basic ' + Buffer.from(process.env.NX_INFURA_PROJECT_ID + ':' + process.env.NX_INFURA_API_SECRET).toString('base64')
 const infuraConfig = {
     host: 'ipfs.infura.io',
@@ -125,7 +123,6 @@ export const transferNFT = (owner: string, to: string, id: string, ) => async (d
     await fetchNFTList()(dispatch)
     dispatchTransferNFT(id, to)(dispatch)
   } catch (error: any) {
-    console.log(error)
     dispatchMarketplaceFailure(error.message)(dispatch)
   }
 }
@@ -133,7 +130,7 @@ export const transferNFT = (owner: string, to: string, id: string, ) => async (d
 export const buyNFT = (nft: NFT, buyer: string) => async (dispatch: Dispatch<any>) => {
   try {
     const contract = new ethers.Contract(DEPLOY_CONFIG.marketplaceAddress, DEPLOY_CONFIG.marketplaceABI, window.web3Provider.getSigner())
-    const buyTxn = await contract['buy'](nft.owner, buyer, nft.id, ethers.utils.parseEther(nft.price))
+    const buyTxn = await contract['buy'](nft.owner, buyer, nft.id, { value: ethers.utils.parseEther(nft.price) })
 
     await buyTxn.wait()
     dispatchBuyNFT(nft.id!, buyer)(dispatch)
