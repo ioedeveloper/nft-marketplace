@@ -11,9 +11,8 @@ export function Header() {
                 <div className="header-inner">
                     <div className="header-left">
                         <div className="logo-thumbnail logo-custom-css d-inline-flex">
-                            <a className="logo-light" href="/"><img src="assets/images/logo.png" alt="nft-logo" /></a>
-                            <a className="logo-dark" href="/"><img src="assets/images/logo.png" alt="nft-logo" /></a>
-                            <h4>FT Marketplace</h4>
+                            <h4>JOS Museum</h4>&nbsp;&nbsp;
+                            <h4>Marketplace</h4>
                         </div>
                         <div className="mainmenu-wrapper">
                             <nav id="sideNav" className="mainmenu-nav d-none d-xl-block">

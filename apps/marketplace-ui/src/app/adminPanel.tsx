@@ -114,7 +114,7 @@ export function AdminPanel() {
                                                             <td><span>{(nft.description.length > 50) ? nft.description.slice(0, 49) + '...' : nft.description }</span></td>
                                                             <td><span>{nft.owner}</span></td>
                                                             <td><span className="color-info">{nft.price} ETH</span></td>
-                                                            <td>{ nft.verified ? <a href="#" className="badge badge-success text-success">Verified</a> : <button className="btn btn-success" onClick={() => handleApproveClick(nft.id!)}>{ approveId !== nft.id ? 'Approve' : 'Pending...' }</button>}&nbsp;<Link to={`/view-details/${index}`}><button className="btn btn-info">View</button></Link></td>
+                                                            <td>{ nft.verified ? <a href="#" className="badge badge-success text-success">Verified</a> : <button className="btn btn-success" onClick={() => handleApproveClick(nft.id!)}>{ approveId !== nft.id ? 'Verify' : 'Pending...' }</button>}&nbsp;<Link to={`/view-details/${index}`}><button className="btn btn-info">View</button></Link></td>
                                                         </tr>
                                                     )
                                                 })
