@@ -48,7 +48,7 @@ export const fetchNFTList = (limit = 20) => async (dispatch: Dispatch<any>) => {
         {
           address: DEPLOY_CONFIG.tokenAddress,
           topics: [DEPLOY_CONFIG.mintTokenTopic],
-          fromBlock: '0x80E5B7', // converted decimal block number to hexadecimal
+          fromBlock: '0x81E9B0', // converted decimal block number to hexadecimal
           limit
         },
       ],
